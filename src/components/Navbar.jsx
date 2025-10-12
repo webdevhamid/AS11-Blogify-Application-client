@@ -4,12 +4,18 @@ const Navbar = () => {
   const menu = (
     <>
       <li>
-        <NavLink to={`/`} className={({ isActive }) => [isActive ? "text-red-500" : ""]}>
+        <NavLink
+          to={`/`}
+          className={`${({ isActive }) => [isActive ? "text-red-500" : ""]} font-theme`}
+        >
           Home
         </NavLink>
       </li>
       <li>
-        <NavLink to={`/about`} className={({ isActive }) => [isActive ? "text-red-500" : ""]}>
+        <NavLink
+          to={`/about`}
+          className={`${({ isActive }) => [isActive ? "text-red-500" : ""]} font-theme`}
+        >
           About
         </NavLink>
       </li>
@@ -43,7 +49,7 @@ const Navbar = () => {
               {menu}
             </ul>
           </div>
-          <Link to={`/`} className="font-BBH text-purple-500 font-bold text-3xl">
+          <Link to={`/`} className="font-BBH text-black font-bold text-3xl">
             Blogify
           </Link>
         </div>
