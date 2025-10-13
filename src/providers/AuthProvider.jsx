@@ -38,9 +38,10 @@ const AuthProvider = ({ children }) => {
       photoURL: `${photoURL}`,
     });
   };
-  //   Current user observer
+
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
+    //   Current user observer
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
         console.log(user);
@@ -48,6 +49,12 @@ const AuthProvider = ({ children }) => {
         console.log("User is logged out");
       }
     });
+
+    // Cleanup function to stop listening when the component unmount
+    return () => {
+      // Stop the listener when the component unmount
+      unsubscribe();
+    };
   }, [user]);
 
   const authInfo = {
