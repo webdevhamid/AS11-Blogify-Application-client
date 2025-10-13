@@ -1,5 +1,6 @@
 import { Outlet } from "react-router";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 
 const Main = () => {
   return (
@@ -7,10 +8,11 @@ const Main = () => {
       {/* Navbar */}
       <Navbar />
       {/* Outlet */}
-      <div className="container mx-auto">
+      <div className="container mx-auto min-h-[calc(100vh-285px)]">
         <Outlet />
       </div>
       {/* Footer */}
+      <Footer />
     </div>
   );
 };

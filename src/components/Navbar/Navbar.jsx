@@ -4,19 +4,31 @@ const Navbar = () => {
   const menu = (
     <>
       <li>
-        <NavLink
-          to={`/`}
-          className={`${({ isActive }) => [isActive ? "text-red-500" : ""]} font-theme`}
-        >
+        <NavLink to={`/`} className={({ isActive }) => [isActive ? "text-red-500" : ""]}>
           Home
         </NavLink>
       </li>
       <li>
+        <NavLink to={`/add-blog`} className={({ isActive }) => [isActive ? "text-red-500" : ""]}>
+          Add Blog
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={`/all-blogs`} className={({ isActive }) => [isActive ? "text-red-500" : ""]}>
+          All Blogs
+        </NavLink>
+      </li>
+      <li>
         <NavLink
-          to={`/about`}
-          className={`${({ isActive }) => [isActive ? "text-red-500" : ""]} font-theme`}
+          to={`/featured-blogs`}
+          className={({ isActive }) => [isActive ? "text-red-500" : ""]}
         >
-          About
+          Featured Blogs
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={`/wishlist`} className={({ isActive }) => [isActive ? "text-red-500" : ""]}>
+          Wishlist
         </NavLink>
       </li>
     </>
@@ -56,16 +68,31 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{menu}</ul>
         </div>
+        {/* Login/Register */}
         <div className="navbar-end">
-          <div className="dropdown dropdown-end">
+          {/* Login | Register */}
+          <ul className="flex gap-2">
+            <li className="hover:font-medium transition">
+              <NavLink
+                to={`/login`}
+                className={({ isActive }) => [isActive ? "font-medium transition" : ""]}
+              >
+                Login
+              </NavLink>
+            </li>
+          </ul>
+          {/* Dropdown */}
+          <div className="dropdown dropdown-end hidden">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              {/* Profile Pic */}
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  src="https://i.ibb.co.com/TBqDj6v0/Gemini-Generated-Image-bd6y69bd6y69bd6y.png"
                 />
               </div>
             </div>
+            {/* Profile settings */}
             <ul
               tabIndex="-1"
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
