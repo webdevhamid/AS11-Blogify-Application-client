@@ -1,6 +1,12 @@
 import { Link, NavLink } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
+  const { user, handleLogout, setUser } = useAuth();
+  const handleLogoutUser = async () => {
+    await handleLogout();
+    setUser(null);
+  };
   const menu = (
     <>
       <li>
@@ -70,47 +76,46 @@ const Navbar = () => {
         </div>
         {/* Login/Register */}
         <div className="navbar-end">
-          {/* Login | Register */}
-          <ul className="flex gap-2">
-            <li className="hover:font-medium transition">
-              <NavLink
-                to={`/login`}
-                className={({ isActive }) => [isActive ? "font-medium transition" : ""]}
-              >
-                Login
-              </NavLink>
-            </li>
-          </ul>
-          {/* Dropdown */}
-          <div className="dropdown dropdown-end hidden">
-            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-              {/* Profile Pic */}
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://i.ibb.co.com/TBqDj6v0/Gemini-Generated-Image-bd6y69bd6y69bd6y.png"
-                />
+          {user ? (
+            // Profile dropdown
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                {/* Profile Pic */}
+                <div className="w-10 rounded-full">
+                  <img alt="Tailwind CSS Navbar component" src={user?.photoURL} />
+                </div>
               </div>
+              <ul
+                tabIndex="-1"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              >
+                <li>
+                  <a className="justify-between">
+                    Profile
+                    <span className="badge">New</span>
+                  </a>
+                </li>
+                <li>
+                  <a>Settings</a>
+                </li>
+                <li>
+                  <button onClick={handleLogoutUser}>Logout</button>
+                </li>
+              </ul>
             </div>
-            {/* Profile settings */}
-            <ul
-              tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a>Logout</a>
+          ) : (
+            // Login Button
+            <ul className="flex gap-2">
+              <li className="hover:font-medium transition">
+                <NavLink
+                  to={`/login`}
+                  className={({ isActive }) => [isActive ? "font-medium transition" : ""]}
+                >
+                  Login
+                </NavLink>
               </li>
             </ul>
-          </div>
+          )}
         </div>
       </div>
     </div>
