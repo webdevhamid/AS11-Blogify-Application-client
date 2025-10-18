@@ -15,14 +15,17 @@ const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   //    Sign-In Function
   const handleSignIn = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   //  Signup function
   const handleSignUp = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
@@ -44,9 +47,11 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        setLoading(false);
         console.log(user);
       } else {
         console.log("User is logged out");
+        setLoading(false);
       }
     });
 
@@ -60,6 +65,8 @@ const AuthProvider = ({ children }) => {
   const authInfo = {
     user,
     setUser,
+    loading,
+    setLoading,
     handleSignIn,
     handleSignUp,
     handleLogout,

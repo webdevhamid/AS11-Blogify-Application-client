@@ -7,6 +7,7 @@ import FeaturedBlogs from "../pages/FeaturedBlogs/FeaturedBlogs";
 import Wishlist from "../pages/WishList/Wishlist";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import PrivateRoutes from "./PrivateRoutes";
 
 const router = createBrowserRouter([
   {
@@ -15,31 +16,39 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        Component: Home,
+        element: <Home />,
       },
       {
         path: "/login",
-        Component: Login,
+        element: <Login />,
       },
       {
         path: "/register",
-        Component: Register,
+        element: <Register />,
       },
       {
         path: "add-blog",
-        Component: AddBlog,
+        element: (
+          <PrivateRoutes>
+            <AddBlog />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "all-blogs",
-        Component: AllBlogs,
+        element: <AllBlogs />,
       },
       {
         path: "featured-blogs",
-        Component: FeaturedBlogs,
+        element: <FeaturedBlogs />,
       },
       {
         path: "wishlist",
-        Component: Wishlist,
+        element: (
+          <PrivateRoutes>
+            <Wishlist />
+          </PrivateRoutes>
+        ),
       },
     ],
   },

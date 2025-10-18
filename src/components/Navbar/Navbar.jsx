@@ -1,11 +1,14 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const { user, handleLogout, setUser } = useAuth();
+  const navigate = useNavigate();
+
   const handleLogoutUser = async () => {
     await handleLogout();
     setUser(null);
+    navigate("/");
   };
   const menu = (
     <>
@@ -82,7 +85,11 @@ const Navbar = () => {
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 {/* Profile Pic */}
                 <div className="w-10 rounded-full border-2">
-                  <img alt="Tailwind CSS Navbar component" src={user?.photoURL} />
+                  <img
+                    alt="Tailwind CSS Navbar component"
+                    src={user?.photoURL}
+                    referrerPolicy="no-referrer"
+                  />
                 </div>
               </div>
               <ul

@@ -1,9 +1,10 @@
-import { Link } from "react-router";
-import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
+import { Link, useNavigate } from "react-router";
 import useAuth from "./../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Register = () => {
-  const { handleSignUp, setUser, updateUserProfile } = useAuth();
+  const { handleSignUp, setUser, updateUserProfile, setLoading } = useAuth();
+  const navigate = useNavigate();
 
   const handleRegistration = async (e) => {
     e.preventDefault();
@@ -18,18 +19,20 @@ const Register = () => {
     // Register a new user
     try {
       const { user } = await handleSignUp(email, password);
-      if (user !== null) {
-        setUser(user);
-        updateUserProfile(firstName, lastName, photo);
-      }
+      setUser(user);
+      updateUserProfile(firstName, lastName, photo);
+      setLoading(false);
+      navigate("/");
+      toast.success("Account created successfully!");
     } catch (err) {
       console.log(err.message);
+      setLoading(false);
+      toast.error(err.code);
     }
   };
 
   return (
     <div>
-      <Breadcrumbs currentPage={"Register"} />
       <div className="hero min-h-[calc(100vh-285px)]">
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <div className="card-body">

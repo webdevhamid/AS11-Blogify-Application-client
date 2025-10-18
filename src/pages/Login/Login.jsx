@@ -1,9 +1,11 @@
-import { Link } from "react-router";
-import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
-  const { handleSignIn, user: currentUser, setUser } = useAuth();
+  const { handleSignIn, user: currentUser, setUser, setLoading } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,14 +20,17 @@ const Login = () => {
     try {
       const { user } = await handleSignIn(email, password);
       setUser(user);
+      setLoading(false);
+      navigate(location?.state ? location?.state : "/");
       console.log(user);
+      toast.success(`Logged In Successfully!`);
     } catch (err) {
-      console.log(err.message);
+      setLoading(false);
+      toast.error(err.code);
     }
   };
   return (
     <div>
-      <Breadcrumbs currentPage={"Login"} />
       <div className="hero min-h-[calc(100vh-285px)]">
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <div className="card-body">
