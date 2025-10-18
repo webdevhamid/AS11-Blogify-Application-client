@@ -38,15 +38,39 @@ const Register = () => {
           <div className="card-body">
             <form className="fieldset" onSubmit={handleRegistration}>
               <label className="label">First Name</label>
-              <input type="text" className="input" placeholder="First Name" name="firstName" />
+              <input
+                type="text"
+                className="input"
+                placeholder="First Name"
+                name="firstName"
+                required
+              />
               <label className="label">Last Name</label>
-              <input type="text" className="input" placeholder="Last Name" name="lastName" />
+              <input
+                type="text"
+                className="input"
+                placeholder="Last Name"
+                name="lastName"
+                required
+              />
               <label className="label">Photo URL</label>
-              <input type="url" className="input" placeholder="Photo URL" name="photoURL" />
+              <input
+                type="url"
+                className="input"
+                placeholder="Photo URL"
+                name="photoURL"
+                required
+              />
               <label className="label">Email</label>
-              <input type="email" className="input" placeholder="Email" name="email" />
+              <input type="email" className="input" placeholder="Email" name="email" required />
               <label className="label">Password</label>
-              <input type="password" className="input" placeholder="Password" name="password" />
+              <input
+                type="password"
+                className="input"
+                placeholder="Password"
+                name="password"
+                required
+              />
               {/* Register button */}
               <button className="btn btn-neutral mt-4" type="submit">
                 Register
