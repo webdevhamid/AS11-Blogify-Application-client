@@ -1,12 +1,16 @@
 import FeaturedArticle from "../../components/FeaturedArticle/FeaturedArticle";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import BreakingNewsMarquee from "../../components/BreakingNewsMarquee/BreakingNewsMarquee";
+import RecentPosts from "../../components/RecentPosts/RecentPosts";
 
 const Home = () => {
   return (
     <div className="min-h-[400px] mt-5 mb-20">
+      {/* Marquee (Breaking News) */}
+      <BreakingNewsMarquee />
       {/* Hero Grid */}
-      <div className="p-2 grid gap-5 md:grid-cols-2 grid-cols-1 min-h-[450px]">
+      <div className="grid gap-5 md:grid-cols-2 grid-cols-1 min-h-[450px]">
         {/* grid 1 */}
         <FeaturedArticle
           title="Gaza ceasefire live: Hamas says it will hand over another hostage body"
@@ -33,8 +37,10 @@ const Home = () => {
           />
         </div>
       </div>
-      {/* Skeleton */}
-      <div></div>
+      {/* Recent Posts */}
+      <div className="py-20">
+        <RecentPosts />
+      </div>
     </div>
   );
 };

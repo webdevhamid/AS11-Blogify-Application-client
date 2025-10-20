@@ -158,19 +158,19 @@ const Navbar = () => {
           ) : (
             // Login Button
             <ul className="flex gap-2">
-              <li className="hover:font-medium transition">
+              <li className="hover:text-red-500 transition">
                 <NavLink
                   to={`/login`}
-                  className={({ isActive }) => [isActive ? "font-medium transition" : ""]}
+                  className={({ isActive }) => [isActive ? "text-red-500 transition" : ""]}
                 >
                   Login
                 </NavLink>
               </li>
               <span> or</span>
-              <li className="hover:font-medium transition">
+              <li className="hover:text-red-500 transition">
                 <NavLink
                   to={`/register`}
-                  className={({ isActive }) => [isActive ? "font-medium transition" : ""]}
+                  className={({ isActive }) => [isActive ? "text-red-500 transition" : ""]}
                 >
                   Register
                 </NavLink>

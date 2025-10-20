@@ -5,16 +5,16 @@ import { Link } from "react-router";
 const FeaturedArticle = ({ title, imageURL }) => {
   return (
     <Link
-      className={`relative overflow-hidden bg-center bg-cover w-full`}
+      className={`relative overflow-hidden bg-center bg-cover w-full full]`}
       style={{ backgroundImage: `url(${imageURL})` }}
     >
       {/* overlay */}
       <div className="bg-[rgba(30,30,30,0.4)] hover:bg-[rgba(30,30,30,0.2)] transform duration-1000 absolute w-full h-full"></div>
       {/* Article Content */}
       <div>
-        <h1 className="text-lg absolute bottom-0 left-0 text-white text-shadow-2xs font-medium hover:text-red-400 transform duration-500 p-5">
+        <Link className="md:text-sm lg:text-lg text-sm absolute bottom-0 left-0 text-white text-shadow-2xs font-medium hover:text-red-400 transform duration-500 p-5 hover:underline">
           {title}
-        </h1>
+        </Link>
       </div>
     </Link>
   );
