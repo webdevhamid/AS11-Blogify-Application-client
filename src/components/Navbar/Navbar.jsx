@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import "./Navbar.css";
 
 const Navbar = () => {
   const { user, handleLogout, setUser } = useAuth();
@@ -12,31 +13,73 @@ const Navbar = () => {
   };
   const menu = (
     <>
-      <li>
-        <NavLink to={`/`} className={({ isActive }) => [isActive ? "text-red-500" : ""]}>
+      <li className="">
+        <NavLink
+          to={`/`}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "bg-blue-500"
+              : isActive
+              ? "text-red-500 border-b-2 rounded-none"
+              : "border-b-2 rounded-none border-transparent hover:border-red-500"
+          }
+        >
           Home
         </NavLink>
       </li>
       <li>
-        <NavLink to={`/add-blog`} className={({ isActive }) => [isActive ? "text-red-500" : ""]}>
+        <NavLink
+          to={`/add-blog`}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "bg-blue-500"
+              : isActive
+              ? "text-red-500 border-b-2 rounded-none"
+              : "border-b-2 rounded-none border-transparent hover:border-red-500"
+          }
+        >
           Add Blog
         </NavLink>
       </li>
       <li>
-        <NavLink to={`/all-blogs`} className={({ isActive }) => [isActive ? "text-red-500" : ""]}>
+        <NavLink
+          to={`/all-blogs`}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "bg-blue-500"
+              : isActive
+              ? "text-red-500 border-b-2 rounded-none"
+              : "border-b-2 rounded-none border-transparent hover:border-red-500"
+          }
+        >
           All Blogs
         </NavLink>
       </li>
       <li>
         <NavLink
           to={`/featured-blogs`}
-          className={({ isActive }) => [isActive ? "text-red-500" : ""]}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "bg-blue-500"
+              : isActive
+              ? "text-red-500 border-b-2 rounded-none"
+              : "border-b-2 rounded-none border-transparent hover:border-red-500"
+          }
         >
           Featured Blogs
         </NavLink>
       </li>
       <li>
-        <NavLink to={`/wishlist`} className={({ isActive }) => [isActive ? "text-red-500" : ""]}>
+        <NavLink
+          to={`/wishlist`}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "bg-blue-500"
+              : isActive
+              ? "text-red-500 border-b-2 rounded-none"
+              : "border-b-2 rounded-none border-transparent hover:border-red-500"
+          }
+        >
           Wishlist
         </NavLink>
       </li>
@@ -70,8 +113,8 @@ const Navbar = () => {
               {menu}
             </ul>
           </div>
-          <Link to={`/`} className="font-BBH text-black font-bold text-3xl">
-            Blogify
+          <Link to={`/`} className="font-BBH text-black font-bold text-3xl uppercase">
+            News<span className="text-red-500">Waves</span>
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -84,7 +127,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 {/* Profile Pic */}
-                <div className="w-10 rounded-full border-2">
+                <div className="w-10 rounded-full border-2 border-red-500">
                   <img
                     alt="Tailwind CSS Navbar component"
                     src={user?.photoURL}
@@ -103,7 +146,9 @@ const Navbar = () => {
                   </a>
                 </li>
                 <li>
-                  <a>Settings</a>
+                  <button>
+                    <a>Settings</a>
+                  </button>
                 </li>
                 <li>
                   <button onClick={handleLogoutUser}>Logout</button>
@@ -119,6 +164,15 @@ const Navbar = () => {
                   className={({ isActive }) => [isActive ? "font-medium transition" : ""]}
                 >
                   Login
+                </NavLink>
+              </li>
+              <span> or</span>
+              <li className="hover:font-medium transition">
+                <NavLink
+                  to={`/register`}
+                  className={({ isActive }) => [isActive ? "font-medium transition" : ""]}
+                >
+                  Register
                 </NavLink>
               </li>
             </ul>
