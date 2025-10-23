@@ -30,7 +30,7 @@ const AddBlog = () => {
   };
 
   return (
-    <div className="my-8 bg-gradient-to-t from-gray-100 shadow  w-6/7 sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto lg:p-5 md:p-3 p-2">
+    <div className="my-6 bg-gradient-to-t from-gray-100 shadow  w-6/7 sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto lg:p-5 md:p-3 p-2">
       <h1 className="text-3xl text-center mb-3 font-medium">Add New Post</h1>
       <form className="fieldset add-blog" onSubmit={handleSubmitForm}>
         <div className="grid grid-cols-2 gap-5">
@@ -68,14 +68,32 @@ const AddBlog = () => {
             <input type="url" className="input" placeholder="Photo URL" name="photoURL" required />
           </div>
           <div className="flex flex-col">
+            <label className="label">Category</label>
+            <select defaultValue="Choose a category" className="select w-full">
+              <option>Choose a category</option>
+              <option>Technology</option>
+              <option>Travel</option>
+              <option>Health & Wellness</option>
+              <option>Business</option>
+              <option>Food & Nutrition</option>
+              <option>Finance</option>
+              <option>Environment</option>
+              <option>Productivity </option>
+              <option>Lifestyle</option>
+              <option>Education</option>
+              <option>Lifestyle</option>
+              <option>Generic</option>
+            </select>
+          </div>
+          <div className="flex flex-col col-span-2">
             <label className="label">Short Description</label>
-            <input
+            <textarea
+              className="textarea h-10"
               type="text"
-              className="input"
               placeholder="Enter Short Description"
               name="shortDescription"
               required
-            />
+            ></textarea>
           </div>
           <div className="col-span-2 flex flex-col">
             <label className="label">Long Description</label>
@@ -160,7 +178,7 @@ const AddBlog = () => {
         {/* Register button */}
         <div className="block">
           <button
-            className="btn btn-neutral mt-4 w-full bg-red-500 text-white border-none outline-0"
+            className="btn btn-neutral mt-4 w-full bg-red-500 hover:bg-red-600 transition text-white border-none outline-0"
             type="submit"
           >
             Submit
