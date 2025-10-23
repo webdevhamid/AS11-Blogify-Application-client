@@ -166,7 +166,6 @@ const Navbar = () => {
                   Login
                 </NavLink>
               </li>
-              <span> or</span>
               <li className="hover:text-red-500 transition">
                 <NavLink
                   to={`/register`}

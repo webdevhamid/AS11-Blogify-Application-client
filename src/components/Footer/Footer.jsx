@@ -1,7 +1,7 @@
 import "./Footer.css";
 const Footer = () => {
   return (
-    <footer className="bg-gray-100">
+    <footer className="bg-base-100 py-20">
       <div className="footer container mx-auto sm:footer-horizontal text-base-content p-10">
         <nav>
           <h6 className="footer-title">Services</h6>
