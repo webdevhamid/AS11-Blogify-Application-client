@@ -40,7 +40,7 @@ const AddBlog = () => {
               onChange={(e) => handleSlug(e)}
               type="text"
               className="input"
-              placeholder="First Name"
+              placeholder="Enter your post title"
               name="blogTitle"
               required
             />
@@ -65,7 +65,13 @@ const AddBlog = () => {
           </div>
           <div className="flex flex-col">
             <label className="label">Cover Image</label>
-            <input type="url" className="input" placeholder="Photo URL" name="photoURL" required />
+            <input
+              type="url"
+              className="input"
+              placeholder="Cover Image URL"
+              name="photoURL"
+              required
+            />
           </div>
           <div className="flex flex-col">
             <label className="label">Category</label>
@@ -104,6 +110,14 @@ const AddBlog = () => {
             ></textarea>
           </div>
           <div className="flex flex-col">
+            <label className="label">Make It Breaking News? (optional)</label>
+            <select defaultValue="Pick a color" className="select w-full">
+              <option>Choose option</option>
+              <option>YES</option>
+              <option>NO</option>
+            </select>
+          </div>
+          <div className="flex flex-col">
             <label className="label">Feature Post (optional)</label>
             <select defaultValue="Pick a color" className="select w-full">
               <option>Choose option</option>
@@ -123,12 +137,12 @@ const AddBlog = () => {
               <option value={"NO"}>NO</option>
             </select>
           </div>
-          <div className="flex flex-col">
+          <div className={`flex flex-col ${featureBannerPost === "NO" && "hidden"}`}>
             <label className="label">Banner Feature Order (optional)</label>
             <select
               defaultValue="Pick a color"
               disabled={featureBannerPost === "NO" && true}
-              className="select w-full"
+              className={`select w-full`}
             >
               <option>Choose option</option>
               <option>1</option>
