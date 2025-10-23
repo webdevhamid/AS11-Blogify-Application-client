@@ -24,7 +24,12 @@ const RecentPosts = () => {
       <IconTitle title={`Recent Posts`} />
       <div className="grid h-[600px] grid-cols-3 gap-5 mt-5">
         {recentBlogs.map((blog) => (
-          <ArticleTemplate key={blog._id} title={blog.title} imageURL={blog.coverImage} />
+          <ArticleTemplate
+            key={blog._id}
+            id={blog._id}
+            title={blog.title}
+            imageURL={blog.coverImage}
+          />
         ))}
       </div>
     </div>

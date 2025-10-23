@@ -26,12 +26,23 @@ const Hero = () => {
   return (
     <div className="grid gap-5 md:grid-cols-2 grid-cols-1 min-h-[450px]">
       {/* grid 1 */}
-      <ArticleTemplate title={leftFeaturedBlog?.title} imageURL={leftFeaturedBlog?.coverImage} />
+      <ArticleTemplate
+        id={leftFeaturedBlog?._id}
+        title={leftFeaturedBlog?.title}
+        imageURL={leftFeaturedBlog?.coverImage}
+        tags={leftFeaturedBlog?.tags}
+      />
 
       {/* grid 2 */}
       <div className="grid gap-5 grid-cols-2">
         {rightFeaturedBlogs.map((blog) => (
-          <ArticleTemplate title={blog?.title} imageURL={blog?.coverImage} key={blog._id} />
+          <ArticleTemplate
+            id={blog?._id}
+            title={blog?.title}
+            imageURL={blog?.coverImage}
+            key={blog._id}
+            tags={blog?.tags}
+          />
         ))}
       </div>
     </div>

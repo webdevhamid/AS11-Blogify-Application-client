@@ -8,6 +8,8 @@ import Wishlist from "../pages/WishList/Wishlist";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import PrivateRoutes from "./PrivateRoutes";
+import SingleBlog from "../pages/SingleBlog/SingleBlog";
+import MyBlogs from "../pages/MyBlogs/MyBlogs";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,18 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <Wishlist />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "single-blog/:id",
+        element: <SingleBlog />,
+      },
+      {
+        path: "my-blogs",
+        element: (
+          <PrivateRoutes>
+            <MyBlogs />
           </PrivateRoutes>
         ),
       },

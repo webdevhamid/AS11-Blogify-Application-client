@@ -27,20 +27,22 @@ const Navbar = () => {
           Home
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to={`/add-blog`}
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "bg-blue-500"
-              : isActive
-              ? "text-red-500 border-b-2 rounded-none"
-              : "border-b-2 rounded-none border-transparent hover:border-red-500"
-          }
-        >
-          Add Blog
-        </NavLink>
-      </li>
+      {user !== null && (
+        <li>
+          <NavLink
+            to={`/add-blog`}
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "bg-blue-500"
+                : isActive
+                ? "text-red-500 border-b-2 rounded-none"
+                : "border-b-2 rounded-none border-transparent hover:border-red-500"
+            }
+          >
+            Add Blog
+          </NavLink>
+        </li>
+      )}
       <li>
         <NavLink
           to={`/all-blogs`}
@@ -69,20 +71,38 @@ const Navbar = () => {
           Featured Blogs
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to={`/wishlist`}
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "bg-blue-500"
-              : isActive
-              ? "text-red-500 border-b-2 rounded-none"
-              : "border-b-2 rounded-none border-transparent hover:border-red-500"
-          }
-        >
-          Wishlist
-        </NavLink>
-      </li>
+      {user !== null && (
+        <li>
+          <NavLink
+            to={`/wishlist`}
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "bg-blue-500"
+                : isActive
+                ? "text-red-500 border-b-2 rounded-none"
+                : "border-b-2 rounded-none border-transparent hover:border-red-500"
+            }
+          >
+            Wishlist
+          </NavLink>
+        </li>
+      )}
+      {user !== null && (
+        <li>
+          <NavLink
+            to={`/my-blogs`}
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "bg-blue-500"
+                : isActive
+                ? "text-red-500 border-b-2 rounded-none"
+                : "border-b-2 rounded-none border-transparent hover:border-red-500"
+            }
+          >
+            My Blogs
+          </NavLink>
+        </li>
+      )}
     </>
   );
   return (
