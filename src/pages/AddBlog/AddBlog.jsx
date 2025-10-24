@@ -30,7 +30,7 @@ const AddBlog = () => {
   };
 
   return (
-    <div className="my-6 bg-gradient-to-t from-gray-100 shadow md:w-2/3 mx-auto lg:p-5 md:p-3 p-2">
+    <div className="my-6 bg-gradient-to-b from-gray-100 shadow md:w-2/3 mx-auto lg:p-5 md:p-3 p-2">
       <h1 className="text-3xl text-center mb-3 font-medium">Add New Post</h1>
       <form className="fieldset add-blog" onSubmit={handleSubmitForm}>
         <div className="grid grid-cols-2 gap-5">
@@ -58,9 +58,11 @@ const AddBlog = () => {
                 onBlur={() => setReadOnlyValue(true)}
                 required
               />
-              <span className="btn join-item" onClick={handleEditSlug}>
-                <FaEdit className="text-2xl cursor-pointer" />
-              </span>
+              <div className="tooltip" data-tip="Edit slug">
+                <span className="btn join-item" onClick={handleEditSlug}>
+                  <FaEdit className="text-2xl cursor-pointer" />
+                </span>
+              </div>
             </div>
           </div>
           <div className="flex flex-col">
@@ -102,43 +104,57 @@ const AddBlog = () => {
             ></textarea>
           </div>
           <div className="col-span-2 flex flex-col">
-            <label className="label">Long Description</label>
+            <label className="label">Description</label>
             <textarea
               className="textarea w-full h-[250px] max-h-[250px]"
               placeholder="Description"
-              name="longDescription"
+              name="description"
             ></textarea>
           </div>
           <div className="flex flex-col">
-            <label className="label">Make It Breaking News? (optional)</label>
-            <select defaultValue="Pick a color" className="select w-full">
-              <option>Choose option</option>
-              <option>YES</option>
-              <option>NO</option>
-            </select>
-          </div>
-          <div className="flex flex-col">
-            <label className="label">Feature Post (optional)</label>
-            <select defaultValue="Pick a color" className="select w-full">
-              <option>Choose option</option>
-              <option>YES</option>
-              <option>NO</option>
-            </select>
-          </div>
-          <div className="flex flex-col">
-            <label className="label">Feature It on Home Banner? (optional)</label>
-            <select
-              defaultValue="Pick a color"
-              className="select w-full"
-              onChange={(e) => setFeatureBannerPost(e.target.value)}
+            <div
+              className="tooltip"
+              data-tip="This post will be displayed in the breaking news section"
             >
+              <label className="label cursor-help">Make It Breaking News? (optional)</label>
+            </div>
+            <select defaultValue="Pick a color" className="select w-full">
               <option>Choose option</option>
-              <option value={"YES"}>YES</option>
-              <option value={"NO"}>NO</option>
+              <option>YES</option>
+              <option>NO</option>
             </select>
           </div>
+          <div className="tooltip" data-tip="This post will be displayed in the featured page">
+            <div className="flex flex-col">
+              <label className="label cursor-help">Feature Post (optional)</label>
+              <select defaultValue="Pick a color" className="select w-full">
+                <option>Choose option</option>
+                <option>YES</option>
+                <option>NO</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="tooltip" data-tip="This post will be displayed on home banner">
+            <div className="flex flex-col">
+              <label className="label cursor-help">Feature It on Home Banner? (optional)</label>
+              <select
+                defaultValue="Pick a color"
+                className="select w-full"
+                onChange={(e) => setFeatureBannerPost(e.target.value)}
+              >
+                <option>Choose option</option>
+                <option value={"YES"}>YES</option>
+                <option value={"NO"}>NO</option>
+              </select>
+            </div>
+          </div>
+
           <div className={`flex flex-col ${featureBannerPost !== "YES" && "hidden"}`}>
-            <label className="label">Banner Feature Order (optional)</label>
+            <div className="tooltip" data-tip="Define the home banner order">
+              <label className="label cursor-help">Banner Order (optional)</label>
+            </div>
+
             <select
               defaultValue="Pick a color"
               disabled={featureBannerPost === "NO" && true}
