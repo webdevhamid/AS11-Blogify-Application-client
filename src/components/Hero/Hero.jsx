@@ -24,7 +24,7 @@ const Hero = () => {
   const rightFeaturedBlogs = featuredBlogs.slice(1, 5);
 
   return (
-    <div className="grid gap-5 md:grid-cols-2 grid-cols-1 h-[450px]">
+    <div className="grid gap-2 md:gap-5 md:grid-cols-2 grid-cols-1 h-[460px]">
       {/* grid 1 */}
       <ArticleTemplate
         id={leftFeaturedBlog?._id}
@@ -34,7 +34,7 @@ const Hero = () => {
       />
 
       {/* grid 2 */}
-      <div className="grid gap-5 grid-cols-2">
+      <div className="grid gap-2 md:gap-5 grid-cols-2">
         {rightFeaturedBlogs.map((blog) => (
           <ArticleTemplate
             id={blog?._id}

@@ -6,15 +6,13 @@ import Hero from "../../components/Hero/Hero";
 
 const Home = () => {
   return (
-    <div className="mt-5">
+    <div className="mt-2 sm:mt-5">
       {/* Marquee (Breaking News) */}
       <BreakingNewsMarquee />
       {/* Hero section */}
       <Hero />
       {/* Recent Posts */}
-      <div className="py-20">
-        <RecentPosts />
-      </div>
+      <RecentPosts />
       {/* News letter Section */}
       <div>
         <NewsLetter />

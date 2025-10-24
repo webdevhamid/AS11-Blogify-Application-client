@@ -4,7 +4,7 @@ import { GiElectric } from "react-icons/gi";
 
 const BreakingNewsMarquee = () => {
   return (
-    <div className="flex gap-2 mb-2">
+    <div className="sm:flex gap-2 mb-2 hidden">
       <button className="w-fit btn bg-red-500 text-white rounded-none">
         <GiElectric className="text-xl" /> Breaking News
       </button>
