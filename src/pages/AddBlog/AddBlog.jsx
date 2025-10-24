@@ -30,7 +30,7 @@ const AddBlog = () => {
   };
 
   return (
-    <div className="my-6 bg-gradient-to-t from-gray-100 shadow  w-6/7 sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto lg:p-5 md:p-3 p-2">
+    <div className="my-6 bg-gradient-to-t from-gray-100 shadow md:w-2/3 mx-auto lg:p-5 md:p-3 p-2">
       <h1 className="text-3xl text-center mb-3 font-medium">Add New Post</h1>
       <form className="fieldset add-blog" onSubmit={handleSubmitForm}>
         <div className="grid grid-cols-2 gap-5">
@@ -137,7 +137,7 @@ const AddBlog = () => {
               <option value={"NO"}>NO</option>
             </select>
           </div>
-          <div className={`flex flex-col ${featureBannerPost === "NO" && "hidden"}`}>
+          <div className={`flex flex-col ${featureBannerPost !== "YES" && "hidden"}`}>
             <label className="label">Banner Feature Order (optional)</label>
             <select
               defaultValue="Pick a color"

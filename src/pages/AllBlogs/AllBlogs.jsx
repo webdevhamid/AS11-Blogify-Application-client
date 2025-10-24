@@ -22,21 +22,22 @@ const AllBlogs = () => {
   return (
     <div className="my-10">
       <div>
-        <h1 className="text-3xl font-medium text-center mb-10">All Blogs</h1>
+        <h1 className="text-3xl font-medium text-center mb-10 border-b-2 pb-2 w-[180px] border-red-500 mx-auto">
+          All Blogs
+        </h1>
       </div>
       <div className="grid lg:grid-cols-2 grid-cols-1 gap-10">
         {allBlogs.map((blog) => (
           <div
             key={blog?._id}
-            className="flex md:gap-x-7 sm:gap-x-2 lg:gap-x-9 overflow-hidden border h-[250px] relative  transition-border duration-200 rounded-2xl blog-shadow"
+            className="flex md:flex-row flex-col gap-5 overflow-hidden border md:h-[250px] relative transition-border duration-200 rounded-2xl blog-shadow justify-between items-center"
           >
-            <Link
-              to={`/single-blog/${blog?._id}`}
-              className="max-w-[150px] sm:max-w-[200px] md:max-w-[250px]"
-            >
+            <Link to={`/single-blog/${blog?._id}`} className="flex-1 h-full w-full">
               <img src={blog?.coverImage} className="w-full h-full object-cover" alt="" />
             </Link>
-            <div className="flex flex-col justify-evenly">
+            {/* Blog Content */}
+            <div className="flex flex-col flex-2 gap-3 items-center md:p-0 p-5">
+              {/* Blog Title */}
               <div>
                 <Link
                   to={`/single-blog/${blog?._id}`}
@@ -45,12 +46,14 @@ const AllBlogs = () => {
                   {blog?.title}
                 </Link>
               </div>
+              {/* Blog Description */}
               <div>
                 <p className="text-sm text-left pr-3 md:text-[10px] xl:text-sm sm:text-[10px]">
                   {blog?.excerpt}
                 </p>
               </div>
-              <div className="flex md:flex-row flex-col gap-3 w-1/2">
+              {/* Blog Actions */}
+              <div className="flex flex-row  gap-3 self-start">
                 {/* Wishlist Button */}
                 <button className="btn">
                   <svg

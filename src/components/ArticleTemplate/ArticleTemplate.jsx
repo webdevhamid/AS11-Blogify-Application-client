@@ -3,7 +3,7 @@ import { Link } from "react-router";
 const ArticleTemplate = ({ title, imageURL, id }) => {
   return (
     <Link
-      className={`relative overflow-hidden bg-center bg-cover w-full h-full`}
+      className={`relative overflow-hidden bg-center bg-cover w-full max-h-full`}
       style={{ backgroundImage: `url(${imageURL})` }}
       to={`/single-blog/${id}`}
     >

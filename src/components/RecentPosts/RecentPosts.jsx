@@ -22,7 +22,7 @@ const RecentPosts = () => {
   return (
     <div>
       <IconTitle title={`Recent Posts`} />
-      <div className="grid h-[600px] grid-cols-3 gap-5 mt-5">
+      <div className="grid h-[650px] grid-cols-3 gap-5 mt-5">
         {recentBlogs.map((blog) => (
           <ArticleTemplate
             key={blog._id}
