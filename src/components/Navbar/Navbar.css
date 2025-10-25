@@ -7,7 +7,3 @@
 .menu li a:hover {
   background-color: transparent;
 }
-.menu li a:active {
-  background-color: transparent;
-  color: black;
-}

@@ -18,10 +18,10 @@ const Navbar = () => {
           to={`/`}
           className={({ isActive, isPending }) =>
             isPending
-              ? "bg-blue-500"
+              ? "text-primary"
               : isActive
-              ? "text-red-500 border-b-2 rounded-none"
-              : "border-b-2 rounded-none border-transparent hover:border-red-500"
+              ? "text-primary border-b-2 rounded-none"
+              : "border-b-2 rounded-none border-transparent hover:border-primary"
           }
         >
           Home
@@ -33,10 +33,10 @@ const Navbar = () => {
             to={`/add-blog`}
             className={({ isActive, isPending }) =>
               isPending
-                ? "bg-blue-500"
+                ? "text-primary"
                 : isActive
-                ? "text-red-500 border-b-2 rounded-none"
-                : "border-b-2 rounded-none border-transparent hover:border-red-500"
+                ? "text-primary border-b-2 rounded-none"
+                : "border-b-2 rounded-none border-transparent hover:border-primary"
             }
           >
             Add Blog
@@ -48,10 +48,10 @@ const Navbar = () => {
           to={`/all-blogs`}
           className={({ isActive, isPending }) =>
             isPending
-              ? "bg-blue-500"
+              ? "text-primary"
               : isActive
-              ? "text-red-500 border-b-2 rounded-none"
-              : "border-b-2 rounded-none border-transparent hover:border-red-500"
+              ? "text-primary border-b-2 rounded-none"
+              : "border-b-2 rounded-none border-transparent hover:border-primary"
           }
         >
           All Blogs
@@ -62,10 +62,10 @@ const Navbar = () => {
           to={`/featured-blogs`}
           className={({ isActive, isPending }) =>
             isPending
-              ? "bg-blue-500"
+              ? "text-primary"
               : isActive
-              ? "text-red-500 border-b-2 rounded-none"
-              : "border-b-2 rounded-none border-transparent hover:border-red-500"
+              ? "text-primary border-b-2 rounded-none"
+              : "border-b-2 rounded-none border-transparent hover:border-primary"
           }
         >
           Featured Blogs
@@ -77,10 +77,10 @@ const Navbar = () => {
             to={`/wishlist`}
             className={({ isActive, isPending }) =>
               isPending
-                ? "bg-blue-500"
+                ? "text-primary"
                 : isActive
-                ? "text-red-500 border-b-2 rounded-none"
-                : "border-b-2 rounded-none border-transparent hover:border-red-500"
+                ? "text-primary border-b-2 rounded-none"
+                : "border-b-2 rounded-none border-transparent hover:border-primary"
             }
           >
             Wishlist
@@ -93,10 +93,10 @@ const Navbar = () => {
             to={`/my-blogs`}
             className={({ isActive, isPending }) =>
               isPending
-                ? "bg-blue-500"
+                ? "text-primary"
                 : isActive
-                ? "text-red-500 border-b-2 rounded-none"
-                : "border-b-2 rounded-none border-transparent hover:border-red-500"
+                ? "text-primary border-b-2 rounded-none"
+                : "border-b-2 rounded-none border-transparent hover:border-primary"
             }
           >
             My Blogs
@@ -133,8 +133,12 @@ const Navbar = () => {
               {menu}
             </ul>
           </div>
-          <Link to={`/`} className="font-BBH text-black font-bold text-3xl uppercase">
-            News<span className="text-red-500">Waves</span>
+          <Link
+            to={`/`}
+            className="font-BBH text-neutral dark:text-base-content font-bold text-3xl uppercase"
+          >
+            <span>News</span>
+            <span className="text-primary">Waves</span>
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -147,7 +151,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 {/* Profile Pic */}
-                <div className="w-10 rounded-full border-2 border-red-500">
+                <div className="w-10 rounded-full border-2 border-primary">
                   <img
                     alt="Tailwind CSS Navbar component"
                     src={user?.photoURL}
@@ -178,24 +182,27 @@ const Navbar = () => {
           ) : (
             // Login Button
             <ul className="flex gap-2">
-              <li className="hover:text-red-500 transition">
+              <li className="hover:text-primary transition">
                 <NavLink
                   to={`/login`}
-                  className={({ isActive }) => [isActive ? "text-red-500 transition" : ""]}
+                  className={({ isActive }) => [isActive ? "text-primary transition" : ""]}
                 >
                   Login
                 </NavLink>
               </li>
-              <li className="hover:text-red-500 transition">
+              <li className="hover:text-primary transition">
                 <NavLink
                   to={`/register`}
-                  className={({ isActive }) => [isActive ? "text-red-500 transition" : ""]}
+                  className={({ isActive }) => [isActive ? "text-primary transition" : ""]}
                 >
                   Register
                 </NavLink>
               </li>
             </ul>
           )}
+          <div className="ml-3">
+            <input type="checkbox" value="dark" className="toggle theme-controller" />
+          </div>
         </div>
       </div>
     </div>

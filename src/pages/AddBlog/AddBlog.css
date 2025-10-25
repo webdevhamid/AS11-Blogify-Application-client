@@ -1,6 +1,6 @@
 .add-blog input,
-textarea,
-select {
+.add-blog textarea,
+.add-blog select {
   width: 100%;
   outline: 0;
 }

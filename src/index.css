@@ -1,9 +1,30 @@
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
 
 @import "tailwindcss";
+
+/* DaisyUI directive */
 @plugin "daisyui" {
-  themes: all;
+  themes: light --default, dark;
 }
+
+/* Tailwind CSS Directive for custom font */
 @theme {
   --font-theme: "Bricolage Grotesque", sans-serif;
 }
+
+/* DaisyUI Directive for customize an existing theme (light) */
+@plugin "daisyui/theme" {
+  name: "light";
+  --color-primary: oklch(58.6% 0.253 17.585);
+}
+
+/* DaisyUI Directive for customize an existing theme (dark) */
+@plugin "daisyui/theme" {
+  name: "dark";
+  --color-primary: oklch(58.6% 0.253 17.585);
+}
+
+/* DaisyUI directive for custom button */
+/* @utility btn {
+  @apply rounded-full;
+} */

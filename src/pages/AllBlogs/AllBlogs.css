@@ -1,3 +1,6 @@
 .blog-shadow:hover {
   box-shadow: 0.25rem 0.25rem 0rem #181717;
 }
+.blog-shadow-dark:hover {
+  box-shadow: 0.25rem 0.25rem 0rem #ffffff;
+}

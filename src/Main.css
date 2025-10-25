@@ -1,0 +1,11 @@
+input,
+textarea,
+select {
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus-within {
+  border-color: #fb2c36 !important;
+}

@@ -30,7 +30,7 @@ const AddBlog = () => {
   };
 
   return (
-    <div className="my-6 bg-gradient-to-b from-gray-100 shadow md:w-2/3 mx-auto lg:p-5 md:p-3 p-2">
+    <div className="my-6 bg-gradient-to-b from-gray-100 shadow dark:from-gray-500 md:w-2/3 mx-auto lg:p-5 md:p-3 p-2">
       <h1 className="text-3xl text-center mb-3 font-medium">Add New Post</h1>
       <form className="fieldset add-blog" onSubmit={handleSubmitForm}>
         <div className="grid grid-cols-2 gap-5">
@@ -124,30 +124,30 @@ const AddBlog = () => {
               <option>NO</option>
             </select>
           </div>
-          <div className="tooltip" data-tip="This post will be displayed in the featured page">
-            <div className="flex flex-col">
+          <div className="flex flex-col">
+            <div className="tooltip" data-tip="This post will be displayed in the featured page">
               <label className="label cursor-help">Feature Post (optional)</label>
-              <select defaultValue="Pick a color" className="select w-full">
-                <option>Choose option</option>
-                <option>YES</option>
-                <option>NO</option>
-              </select>
             </div>
+            <select defaultValue="Pick a color" className="select w-full">
+              <option>Choose option</option>
+              <option>YES</option>
+              <option>NO</option>
+            </select>
           </div>
 
-          <div className="tooltip" data-tip="This post will be displayed on home banner">
-            <div className="flex flex-col">
+          <div className="flex flex-col">
+            <div className="tooltip" data-tip="This post will be displayed on home banner">
               <label className="label cursor-help">Feature It on Home Banner? (optional)</label>
-              <select
-                defaultValue="Pick a color"
-                className="select w-full"
-                onChange={(e) => setFeatureBannerPost(e.target.value)}
-              >
-                <option>Choose option</option>
-                <option value={"YES"}>YES</option>
-                <option value={"NO"}>NO</option>
-              </select>
             </div>
+            <select
+              defaultValue="Pick a color"
+              className="select w-full"
+              onChange={(e) => setFeatureBannerPost(e.target.value)}
+            >
+              <option>Choose option</option>
+              <option value={"YES"}>YES</option>
+              <option value={"NO"}>NO</option>
+            </select>
           </div>
 
           <div className={`flex flex-col ${featureBannerPost !== "YES" && "hidden"}`}>
@@ -208,7 +208,7 @@ const AddBlog = () => {
         {/* Register button */}
         <div className="block">
           <button
-            className="btn btn-neutral mt-4 w-full bg-red-500 hover:bg-red-600 transition text-white border-none outline-0"
+            className="btn btn-neutral mt-4 w-full bg-primary hover:bg-red-600 transition text-white border-none outline-0"
             type="submit"
           >
             Submit

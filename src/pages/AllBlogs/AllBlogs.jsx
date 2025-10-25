@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ArticleTemplate from "../../components/ArticleTemplate/ArticleTemplate";
 import "./AllBlogs.css";
 import { Link } from "react-router";
 
@@ -22,15 +21,31 @@ const AllBlogs = () => {
   return (
     <div className="my-10">
       <div>
-        <h1 className="text-3xl font-medium text-center mb-10 border-b-2 pb-2 w-[180px] border-red-500 mx-auto">
+        <h1 className="text-3xl font-medium text-center mb-10 border-b-2 pb-2 w-[180px] border-primary mx-auto">
           All Blogs
         </h1>
+        <div className="flex gap-3 justify-between mb-5">
+          <select defaultValue="Pick a color" className="select w-[250px]">
+            <option disabled={true}>Filter by Category</option>
+            <option>Tech</option>
+            <option>Business</option>
+            <option>Politics</option>
+          </select>
+          <div className="join w-[350px]">
+            <div className="w-full">
+              <div>
+                <input className="input join-item" placeholder="Search" />
+              </div>
+            </div>
+            <button className="btn join-item btn-primary text-base-100">Search</button>
+          </div>
+        </div>
       </div>
       <div className="grid lg:grid-cols-2 grid-cols-1 gap-10">
         {allBlogs.map((blog) => (
           <div
             key={blog?._id}
-            className="flex md:flex-row flex-col gap-5 overflow-hidden border md:h-[250px] relative transition-border duration-200 rounded-2xl blog-shadow justify-between items-center"
+            className="flex md:flex-row flex-col gap-5 overflow-hidden border md:h-[250px] relative transition-border duration-200 rounded-2xl blog-shadow dark:!blog-shadow-dark justify-between items-center"
           >
             <Link to={`/single-blog/${blog?._id}`} className="flex-1 h-full w-full">
               <img src={blog?.coverImage} className="w-full h-full object-cover" alt="" />
@@ -55,7 +70,7 @@ const AllBlogs = () => {
               {/* Blog Actions */}
               <div className="flex flex-row  gap-3 self-start">
                 {/* Wishlist Button */}
-                <button className="btn">
+                <button className="btn btn-primary text-base-100 hover:btn-outline">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -73,7 +88,9 @@ const AllBlogs = () => {
                   Add to Wishlist
                 </button>
                 {/* Details Button */}
-                <button className="btn">Read More</button>
+                <button className="btn btn-outline btn-primary hover:text-base-100">
+                  Read More
+                </button>
               </div>
             </div>
           </div>
