@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./AllBlogs.css";
 import { Link } from "react-router";
+import CategoryBadge from "../../components/CategoryBadge/CategoryBadge";
+import PageTitle from "../../components/PageTitle/PageTitle";
 
 const AllBlogs = () => {
   const [allBlogs, setAllBlogs] = useState([]);
@@ -21,9 +23,8 @@ const AllBlogs = () => {
   return (
     <div className="my-10">
       <div>
-        <h1 className="text-3xl font-medium text-center mb-10 border-b-2 pb-2 w-[180px] border-primary mx-auto">
-          All Blogs
-        </h1>
+        {/* Page Title */}
+        <PageTitle title={"All Blogs"} />
         <div className="flex gap-3 justify-between mb-5">
           <select defaultValue="Pick a color" className="select w-[250px]">
             <option disabled={true}>Filter by Category</option>
@@ -37,7 +38,7 @@ const AllBlogs = () => {
                 <input className="input join-item" placeholder="Search" />
               </div>
             </div>
-            <button className="btn join-item btn-primary text-base-100">Search</button>
+            <button className="btn join-item btn-primary">Search</button>
           </div>
         </div>
       </div>
@@ -47,8 +48,12 @@ const AllBlogs = () => {
             key={blog?._id}
             className="flex md:flex-row flex-col gap-5 overflow-hidden border md:h-[250px] relative transition-border duration-200 rounded-2xl blog-shadow dark:!blog-shadow-dark justify-between items-center"
           >
-            <Link to={`/single-blog/${blog?._id}`} className="flex-1 h-full w-full">
+            {/* Blog Image */}
+            <Link to={`/single-blog/${blog?._id}`} className="flex-1 h-full w-full relative">
               <img src={blog?.coverImage} className="w-full h-full object-cover" alt="" />
+
+              {/* Article Badge */}
+              <CategoryBadge category={blog?.category} align={"left"} />
             </Link>
             {/* Blog Content */}
             <div className="flex flex-col flex-2 gap-3 items-center md:p-0 p-5">
@@ -70,7 +75,7 @@ const AllBlogs = () => {
               {/* Blog Actions */}
               <div className="flex flex-row  gap-3 self-start">
                 {/* Wishlist Button */}
-                <button className="btn btn-primary text-base-100 hover:btn-outline">
+                <button className="btn btn-primary hover:btn-outline">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -88,9 +93,9 @@ const AllBlogs = () => {
                   Add to Wishlist
                 </button>
                 {/* Details Button */}
-                <button className="btn btn-outline btn-primary hover:text-base-100">
+                <Link to={`/single-blog/${blog?._id}`} className="btn btn-outline btn-primary">
                   Read More
-                </button>
+                </Link>
               </div>
             </div>
           </div>

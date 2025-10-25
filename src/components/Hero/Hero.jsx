@@ -30,7 +30,7 @@ const Hero = () => {
         id={leftFeaturedBlog?._id}
         title={leftFeaturedBlog?.title}
         imageURL={leftFeaturedBlog?.coverImage}
-        tags={leftFeaturedBlog?.tags}
+        category={leftFeaturedBlog?.category}
       />
 
       {/* grid 2 */}
@@ -41,7 +41,7 @@ const Hero = () => {
             title={blog?.title}
             imageURL={blog?.coverImage}
             key={blog._id}
-            tags={blog?.tags}
+            category={blog?.category}
           />
         ))}
       </div>

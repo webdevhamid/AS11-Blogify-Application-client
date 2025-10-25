@@ -29,6 +29,7 @@ const RecentPosts = () => {
             id={blog._id}
             title={blog.title}
             imageURL={blog.coverImage}
+            category={blog.category}
           />
         ))}
       </div>

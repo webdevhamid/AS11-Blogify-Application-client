@@ -51,7 +51,7 @@ const SingleBlog = () => {
         </div>
         <div className="sm:col-span-3 lg:col-span-4 xl:col-span-3 col-span-1">
           <div>
-            <div className="flex items-center">
+            <div className="flex items-center gap-1">
               {/* Title */}
               <h1 className="text-2xl md:text-3xl font-bold border-l-8 border-primary pl-4">
                 {blogData.title}
