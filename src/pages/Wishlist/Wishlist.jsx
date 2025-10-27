@@ -29,8 +29,8 @@ const Wishlist = () => {
               <td>Tech</td>
               <td>
                 <div className="flex gap-2">
-                  <Link className="btn btn-xs btn-primary">Remove Wishlist</Link>
                   <Link className="btn btn-xs btn-primary">Details</Link>
+                  <Link className="btn btn-xs btn-primary">Remove Wishlist</Link>
                 </div>
               </td>
             </tr>
@@ -43,8 +43,8 @@ const Wishlist = () => {
               <td>Tech</td>
               <td>
                 <div className="flex gap-2">
-                  <Link className="btn btn-xs btn-primary">Remove Wishlist</Link>
                   <Link className="btn btn-xs btn-primary">Details</Link>
+                  <Link className="btn btn-xs btn-primary">Remove Wishlist</Link>
                 </div>
               </td>
             </tr>
@@ -57,8 +57,8 @@ const Wishlist = () => {
               <td>Tech</td>
               <td>
                 <div className="flex gap-2">
-                  <Link className="btn btn-xs btn-primary">Remove Wishlist</Link>
                   <Link className="btn btn-xs btn-primary">Details</Link>
+                  <Link className="btn btn-xs btn-primary">Remove Wishlist</Link>
                 </div>
               </td>
             </tr>

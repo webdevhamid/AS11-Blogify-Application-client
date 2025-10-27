@@ -105,6 +105,7 @@ const Navbar = () => {
       )}
     </>
   );
+
   return (
     <div className="bg-base-100 shadow-sm">
       <div className="navbar container mx-auto">
@@ -151,7 +152,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 {/* Profile Pic */}
-                <div className="w-10 rounded-full border-2 border-primary">
+                <div className="w-10 rounded-full border-2 border-primary overflow-hidden">
                   <img
                     alt="Tailwind CSS Navbar component"
                     src={user?.photoURL}
@@ -164,10 +165,9 @@ const Navbar = () => {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
               >
                 <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
+                  <button>
+                    <a>Profile</a>
+                  </button>
                 </li>
                 <li>
                   <button>
@@ -201,7 +201,7 @@ const Navbar = () => {
             </ul>
           )}
           <div className="ml-3">
-            <input type="checkbox" value="dark" className="toggle theme-controller" />
+            <input type="checkbox" value="synthwave" className="toggle theme-controller" />
           </div>
         </div>
       </div>

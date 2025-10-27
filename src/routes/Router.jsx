@@ -4,12 +4,13 @@ import Home from "../pages/Home/Home";
 import AddBlog from "../pages/AddBlog/AddBlog";
 import AllBlogs from "../pages/AllBlogs/AllBlogs";
 import FeaturedBlogs from "../pages/FeaturedBlogs/FeaturedBlogs";
-import Wishlist from "../pages/WishList/Wishlist";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import PrivateRoutes from "./PrivateRoutes";
 import SingleBlog from "../pages/SingleBlog/SingleBlog";
 import MyBlogs from "../pages/MyBlogs/MyBlogs";
+import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
+import Wishlist from "../pages/Wishlist/Wishlist";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 

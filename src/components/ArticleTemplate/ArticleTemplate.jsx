@@ -1,7 +1,10 @@
 import { Link } from "react-router";
 import CategoryBadge from "../CategoryBadge/CategoryBadge";
+import Spinner from "../Spinner/Spinner";
+import Skeleton from "react-loading-skeleton";
 
-const ArticleTemplate = ({ title, imageURL, id, category }) => {
+const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
+  if (isPending) return <Skeleton className="h-full max-h-full" />;
   return (
     <Link
       className={`relative overflow-hidden bg-center bg-cover w-full max-h-full`}

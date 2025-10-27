@@ -4,7 +4,7 @@
 
 /* DaisyUI directive */
 @plugin "daisyui" {
-  themes: light --default, dark;
+  themes: light --default, synthwave;
 }
 
 /* Tailwind CSS Directive for custom font */

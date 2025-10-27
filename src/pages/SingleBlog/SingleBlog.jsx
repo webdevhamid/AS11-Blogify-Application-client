@@ -1,8 +1,9 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { IoShareSocial } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import {
   EmailIcon,
@@ -20,24 +21,31 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
+import { ClipLoader } from "react-spinners";
+import { useQuery } from "@tanstack/react-query";
 
 const SingleBlog = () => {
   const { id } = useParams();
-  const [blogData, setBlogData] = useState([]);
   const shareURL = `https://www.aljazeera.com/news/2025/10/25/sudans-army-battles-rsf-advances-in-el-fasher-bara-as-civil-war-rages`;
 
-  useEffect(() => {
-    fetchBlog();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  // Fetching blog using tanStack query
   const fetchBlog = async () => {
     const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/single-blog/${id}`);
-
-    setBlogData(data);
+    return data;
   };
+  const { data: blogData, isPending } = useQuery({
+    queryKey: ["single-blog"],
+    queryFn: fetchBlog,
+  });
 
-  console.log(blogData);
+  // Loading based on blogData
+  if (isPending) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <ClipLoader color="#fb2c36" />
+      </div>
+    );
+  }
 
   return (
     <div className="py-10">
@@ -51,40 +59,59 @@ const SingleBlog = () => {
         </div>
         <div className="sm:col-span-3 lg:col-span-4 xl:col-span-3 col-span-1">
           <div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2 justify-between">
               {/* Title */}
-              <h1 className="text-2xl md:text-3xl font-bold border-l-8 border-primary pl-4">
-                {blogData.title}
+              <h1 className="text-2xl md:text-3xl font-bold border-l-8 border-primary pl-4 w-full">
+                {isPending ? <Skeleton count={2} /> : blogData?.title}
               </h1>
 
               {/* Blog Edit Button */}
-              <div className="tooltip" data-tip="Edit this blog">
+              <div className="tooltip" data-tip="Edit blog">
                 <Link className="btn btn-neutral">
                   <FaEdit />
                 </Link>
               </div>
             </div>
-
-            <img src={blogData.coverImage} className="w-full my-10" alt="" />
+            {/* Cover Image */}
+            {isPending ? (
+              <Skeleton className="w-full my-10 h-full" height={376} />
+            ) : (
+              <img src={blogData.coverImage} className="w-full my-10" alt="" />
+            )}
             <div className="my-5 flex justify-between items-center">
               {/* Author Info */}
               <div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-sm">By</h2>
                   <Link>
-                    <img src={blogData?.author?.avatar} alt="" className="rounded-full w-[30px]" />
+                    {isPending ? (
+                      <Skeleton borderRadius={100} height={30} width={30} />
+                    ) : (
+                      <img
+                        src={blogData?.author?.avatar}
+                        alt=""
+                        className="rounded-full w-[30px]"
+                      />
+                    )}
                   </Link>
-                  <Link className="text-sm font-bold">{blogData?.author?.name}</Link>
+                  <Link className="text-sm font-bold">
+                    {isPending ? (
+                      <Skeleton count={1} width={150} height={20} />
+                    ) : (
+                      blogData?.author?.name
+                    )}
+                  </Link>
                 </div>
                 {/* Published time */}
                 <p className="mt-2 text-xs">
-                  <span className="font-semibold">Published at</span>: {blogData?.publishedAt}
+                  <span className="font-semibold">Published at: </span>
+                  {isPending ? <Skeleton width={150} /> : blogData?.publishedAt}
                 </p>
               </div>
               {/* Social Share */}
               <div>
                 <div className="dropdown dropdown-end">
-                  <div className="tooltip" data-tip="Share this blog">
+                  <div className="tooltip" data-tip="Share blog">
                     <div tabIndex={0} role="button" className="btn btn-primary m-1">
                       <IoShareSocial className="text-xl cursor-pointer" />
                     </div>
@@ -121,8 +148,8 @@ const SingleBlog = () => {
               </div>
             </div>
             {/* Blog Description */}
-            <p className="text-base-content/90 text-lg text-justify sm:text-left">
-              {blogData.description}
+            <p className="text-base-content font-normal text-lg/9 text-justify sm:text-left">
+              {blogData.description || <Skeleton count={10} />}
             </p>
           </div>
         </div>
@@ -131,55 +158,76 @@ const SingleBlog = () => {
           {/* <div className="sticky top-5 flex flex-col gap-5"> */}
           <div className="flex flex-col gap-5">
             <h1 className="text-2xl font-semibold">Related News</h1>
+            {/* News 2 */}
+            <div className="flex gap-3">
+              {/* Image */}
+              <div className="w-[140px]  h-[80px] sm:h-[120px]">
+                {(
+                  <img
+                    src={blogData?.coverImage}
+                    className="w-full h-full object-cover rounded-2xl"
+                    alt=""
+                  />
+                ) || <Skeleton className="h-full w-full" borderRadius="16px" />}
+              </div>
+              {/* Content */}
+              <div className="w-full">
+                {/* News title */}
+                <h1 className="font-semibold text-sm">
+                  {isPending ? <Skeleton count={2} /> : blogData?.title}
+                </h1>
+                {/* Date */}
+                <p className="text-base-content/50">
+                  {isPending ? <Skeleton count={1} /> : blogData?.publishedAt}
+                </p>
+              </div>
+            </div>
+            {/* News 3 */}
+            <div className="flex gap-3">
+              {/* Image */}
+              <div className="w-[140px]  h-[80px] sm:h-[120px]">
+                {(
+                  <img
+                    src={blogData?.coverImage}
+                    className="w-full h-full object-cover rounded-2xl"
+                    alt=""
+                  />
+                ) || <Skeleton className="h-full w-full" borderRadius="16px" />}
+              </div>
+              {/* Content */}
+              <div className="w-full">
+                {/* News title */}
+                <h1 className="font-semibold text-sm">
+                  {isPending ? <Skeleton count={2} /> : blogData?.title}
+                </h1>
+                {/* Date */}
+                <p className="text-base-content/50">
+                  {isPending ? <Skeleton count={1} /> : blogData?.publishedAt}
+                </p>
+              </div>
+            </div>
             {/* News 1 */}
             <div className="flex gap-3">
               {/* Image */}
-              <div className="w-[140px]  h-[80px] sm:h-[120px] overflow-hidden">
-                <img
-                  src={blogData?.coverImage}
-                  className="w-full h-full object-cover rounded-2xl"
-                  alt=""
-                />
+              <div className="w-[140px]  h-[80px] sm:h-[120px]">
+                {(
+                  <img
+                    src={blogData?.coverImage}
+                    className="w-full h-full object-cover rounded-2xl"
+                    alt=""
+                  />
+                ) || <Skeleton className="h-full w-full" borderRadius="16px" />}
               </div>
-              <div>
+              {/* Content */}
+              <div className="w-full">
                 {/* News title */}
-                <h1 className="font-semibold">{blogData?.title}</h1>
+                <h1 className="font-semibold text-sm">
+                  {isPending ? <Skeleton count={2} /> : blogData?.title}
+                </h1>
                 {/* Date */}
-                <p className="text-base-content/50">{blogData?.publishedAt}</p>
-              </div>
-            </div>
-            {/* News 2 */}
-            <div className="flex gap-3">
-              {/* Image */}
-              <div className="w-[140px]  h-[80px] sm:h-[120px] overflow-hidden">
-                <img
-                  src={blogData?.coverImage}
-                  className="w-full h-full object-cover rounded-2xl"
-                  alt=""
-                />
-              </div>
-              <div>
-                {/* News title */}
-                <h1 className="font-semibold">{blogData?.title}</h1>
-                {/* Date */}
-                <p className="text-base-content/50">{blogData?.publishedAt}</p>
-              </div>
-            </div>
-            {/* News 2 */}
-            <div className="flex gap-3">
-              {/* Image */}
-              <div className="w-[140px]  h-[80px] sm:h-[120px] overflow-hidden">
-                <img
-                  src={blogData?.coverImage}
-                  className="w-full h-full object-cover rounded-2xl"
-                  alt=""
-                />
-              </div>
-              <div>
-                {/* News title */}
-                <h1 className="font-semibold">{blogData?.title}</h1>
-                {/* Date */}
-                <p className="text-base-content/50">{blogData?.publishedAt}</p>
+                <p className="text-base-content/50">
+                  {isPending ? <Skeleton count={1} /> : blogData?.publishedAt}
+                </p>
               </div>
             </div>
           </div>
@@ -199,38 +247,34 @@ const SingleBlog = () => {
           </div>
         </form>
         {/* Comments */}
-        <div className="flex flex-col gap-14 mt-8">
+        <div className="flex flex-col gap-14 mt-10">
           {/* Comment 1 */}
           <div className="flex gap-3">
             <div className="min-w-[40px] h-[40px]">
-              <img src={blogData?.author?.avatar} className="w-full h-full rounded-full" alt="" />
+              {(
+                <img src={blogData?.author?.avatar} className="w-full h-full rounded-full" alt="" />
+              ) || <Skeleton className="h-full w-full" circle={true} />}
             </div>
-            <div>
-              <p className="text-sm font-semibold mb-2">{blogData?.author?.name}</p>
+            {/* Comment */}
+            <div className="w-full">
+              <p className="text-sm font-semibold mb-2">{blogData?.author?.name || <Skeleton />}</p>
               <p className="text-lg text-base-content/80">
-                This is my first ever comment on NewsWave. This is my first ever comment on
-                NewsWave. This is my first ever comment on NewsWave. This is my first ever comment
-                on NewsWave. This is my first ever comment on NewsWave. This is my first ever
-                comment on NewsWave. This is my first ever comment on NewsWave. This is my first
-                ever comment on NewsWave. This is my first ever comment on NewsWave. This is my
-                first ever comment on NewsWave.
+                {blogData?.excerpt || <Skeleton count={3} />}
               </p>
             </div>
           </div>
-          {/* Comment 2*/}
+          {/* Comment 2 */}
           <div className="flex gap-3">
             <div className="min-w-[40px] h-[40px]">
-              <img src={blogData?.author?.avatar} className="w-full h-full rounded-full" alt="" />
+              {(
+                <img src={blogData?.author?.avatar} className="w-full h-full rounded-full" alt="" />
+              ) || <Skeleton className="h-full w-full" circle={true} />}
             </div>
-            <div>
-              <p className="text-sm font-semibold mb-2">{blogData?.author?.name}</p>
+            {/* Comment */}
+            <div className="w-full">
+              <p className="text-sm font-semibold mb-2">{blogData?.author?.name || <Skeleton />}</p>
               <p className="text-lg text-base-content/80">
-                This is my first ever comment on NewsWave. This is my first ever comment on
-                NewsWave. This is my first ever comment on NewsWave. This is my first ever comment
-                on NewsWave. This is my first ever comment on NewsWave. This is my first ever
-                comment on NewsWave. This is my first ever comment on NewsWave. This is my first
-                ever comment on NewsWave. This is my first ever comment on NewsWave. This is my
-                first ever comment on NewsWave.
+                {blogData?.excerpt || <Skeleton count={3} />}
               </p>
             </div>
           </div>
