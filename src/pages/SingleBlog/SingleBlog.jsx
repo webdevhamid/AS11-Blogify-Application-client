@@ -66,7 +66,7 @@ const SingleBlog = () => {
       </div>
       <div className="divider"></div>
       {/* Comment Section */}
-      <CommentSection blogData={blogData} />
+      <CommentSection blogData={blogData} id={id} />
     </div>
   );
 };
