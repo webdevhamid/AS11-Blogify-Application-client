@@ -1,11 +1,18 @@
 import { LuCalendarDays } from "react-icons/lu";
 import { HiOutlineHandRaised } from "react-icons/hi2";
+import toast from "react-hot-toast";
 const NewsLetter = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    toast.success("Thank your subscribing our newsletter");
+    const form = e.target;
+    form.reset();
+  };
   return (
     <div className="relative isolate overflow-hidden bg-base-100 py-16 sm:py-24 lg:py-32 border-2 border-primary  border-dotted rounded-2xl">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
-          <div className="max-w-xl lg:max-w-lg">
+          <form className="max-w-xl lg:max-w-lg" onSubmit={handleSubmit}>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-base-content">
               Subscribe to our newsletter
             </h2>
@@ -23,14 +30,13 @@ const NewsLetter = () => {
                 type="email"
                 required
                 placeholder="Enter your email"
-                autoComplete="email"
                 className="min-w-0 flex-auto rounded-md bg-white px-3.5 py-2 text-base text-gray-900 -border-offset-1 placeholder:text-gray-500 focus:border focus:-border-offset-2 focus:border-primary sm:text-sm/6 border border-gray-300"
               />
               <button type="submit" className="btn btn-primary">
                 Subscribe
               </button>
             </div>
-          </div>
+          </form>
           <dl className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
             <div className="flex flex-col items-start">
               <div className="rounded-md bg-white/50 p-2 ring-1 ring-gray-200">

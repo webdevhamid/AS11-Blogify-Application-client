@@ -16,13 +16,26 @@ const Register = () => {
     const password = form.password.value;
     const photo = form.photoURL.value;
 
+    const validatePassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
+
+    if (!validatePassword.test(password))
+      return toast.error(
+        <p className="text-sm text-gray-600 mt-2">
+          <strong>Password must include:</strong>
+          <br />• Minimum <strong>6 characters</strong>
+          <br />• At least <strong>one uppercase letter</strong>
+          <br />• At least <strong>one number</strong>
+          <br />• At least <strong>one special character</strong>
+        </p>
+      );
+
     // Register a new user
     try {
       const { user } = await handleSignUp(email, password);
       setUser(user);
-      updateUserProfile(firstName, lastName, photo);
-      setLoading(false);
+      await updateUserProfile(firstName, lastName, photo);
       navigate("/");
+      setLoading(false);
       toast.success("Account created successfully!");
     } catch (err) {
       console.log(err.message);

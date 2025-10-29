@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
+import Skeleton from "react-loading-skeleton";
 
 const Navbar = () => {
   const { user, handleLogout, setUser } = useAuth();
@@ -107,7 +108,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="bg-base-100 shadow-sm">
+    <div className="bg-base-100 shadow-sm fixed w-full z-10 top-0">
       <div className="navbar container mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -147,7 +148,7 @@ const Navbar = () => {
         </div>
         {/* Login/Register */}
         <div className="navbar-end">
-          {user ? (
+          {user?.email ? (
             // Profile dropdown
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
@@ -200,8 +201,9 @@ const Navbar = () => {
               </li>
             </ul>
           )}
+          {/* Toggle Dark Mode */}
           <div className="ml-3">
-            <input type="checkbox" value="synthwave" className="toggle theme-controller" />
+            <input type="checkbox" value="dark" className="toggle theme-controller" />
           </div>
         </div>
       </div>

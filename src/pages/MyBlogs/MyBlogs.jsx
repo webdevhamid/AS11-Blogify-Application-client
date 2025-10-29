@@ -25,7 +25,7 @@ const MyBlogs = () => {
               <td>Quality Control Specialist</td>
               <td>Blue</td>
               <td>
-                <div className="flex gap-2">
+                <div className="flex-col flex md:flex-row gap-2">
                   <Link className="btn btn-xs btn-primary">Edit</Link>
                   <Link className="btn btn-xs btn-primary">Delete</Link>
                   <Link className="btn btn-xs btn-primary">View</Link>
@@ -34,17 +34,31 @@ const MyBlogs = () => {
             </tr>
             {/* row 2 */}
             <tr>
-              <th>2</th>
-              <td>Hart Hagerty</td>
-              <td>Desktop Support Technician</td>
-              <td>Purple</td>
+              <th>1</th>
+              <td>Cy Ganderton</td>
+              <td>Quality Control Specialist</td>
+              <td>Blue</td>
+              <td>
+                <div className="flex-col flex md:flex-row gap-2">
+                  <Link className="btn btn-xs btn-primary">Edit</Link>
+                  <Link className="btn btn-xs btn-primary">Delete</Link>
+                  <Link className="btn btn-xs btn-primary">View</Link>
+                </div>
+              </td>
             </tr>
             {/* row 3 */}
             <tr>
-              <th>3</th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Red</td>
+              <th>1</th>
+              <td>Cy Ganderton</td>
+              <td>Quality Control Specialist</td>
+              <td>Blue</td>
+              <td>
+                <div className="flex-col flex md:flex-row gap-2">
+                  <Link className="btn btn-xs btn-primary">Edit</Link>
+                  <Link className="btn btn-xs btn-primary">Delete</Link>
+                  <Link className="btn btn-xs btn-primary">View</Link>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>

@@ -4,6 +4,7 @@ import { IoShareSocial } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { format } from "date-fns";
 
 import {
   EmailIcon,
@@ -23,6 +24,7 @@ import {
 } from "react-share";
 import { ClipLoader } from "react-spinners";
 import { useQuery } from "@tanstack/react-query";
+import Spinner from "../../components/Spinner/Spinner";
 
 const SingleBlog = () => {
   const { id } = useParams();
@@ -33,30 +35,55 @@ const SingleBlog = () => {
     const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/single-blog/${id}`);
     return data;
   };
+
+  // TanStack query for fetching "specific blog data"
   const { data: blogData, isPending } = useQuery({
-    queryKey: ["single-blog"],
+    queryKey: ["singleBlog", id],
     queryFn: fetchBlog,
   });
 
-  // Loading based on blogData
-  if (isPending) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <ClipLoader color="#fb2c36" />
-      </div>
+  // Fetching specific categories news
+  const fetchCategoryBlogs = async () => {
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/blogs?categoryType=${encodeURIComponent(
+        blogData?.category
+      )}`
     );
-  }
+    // Filter only unique blogs
+    const uniqueBlogs = data.filter((blog) => blog._id !== blogData?._id);
+    return uniqueBlogs;
+  };
+
+  // TanStack query for fetching "category specific blogs"
+  const { data: relatedBlogs, isPending: isRelatedLoading } = useQuery({
+    queryKey: ["categoryBlogs", blogData?.category, id],
+    queryFn: fetchCategoryBlogs,
+    // It will not execute until it gets the blogData?.category
+    enabled: !!blogData?.category,
+  });
+
+  console.log(relatedBlogs);
+
+  // Loading based on blogData
+  // if (isPending) {
+  //   return (
+  //     <div className="h-screen flex items-center justify-center">
+  //       <ClipLoader color="#fb2c36" />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="py-10">
       {/* Single Blog Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-8 relative">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-8 relative mb-20">
         {/* left */}
         <div className="hidden xl:block">
           <div className="flex h-[500px] justify-center items-center bg-base-200">
             <h1 className="text-xl text-accent-content">Ad</h1>
           </div>
         </div>
+        {/* Middle */}
         <div className="sm:col-span-3 lg:col-span-4 xl:col-span-3 col-span-1">
           <div>
             <div className="flex items-center gap-2 justify-between">
@@ -104,8 +131,12 @@ const SingleBlog = () => {
                 </div>
                 {/* Published time */}
                 <p className="mt-2 text-xs">
-                  <span className="font-semibold">Published at: </span>
-                  {isPending ? <Skeleton width={150} /> : blogData?.publishedAt}
+                  <span className="font-semibold mr-1">Published at: </span>
+                  {isPending ? (
+                    <Skeleton width={150} />
+                  ) : (
+                    format(new Date(blogData?.publishedAt), "dd-MM-yyyy")
+                  )}
                 </p>
               </div>
               {/* Social Share */}
@@ -148,9 +179,27 @@ const SingleBlog = () => {
               </div>
             </div>
             {/* Blog Description */}
-            <p className="text-base-content font-normal text-lg/9 text-justify sm:text-left">
-              {blogData.description || <Skeleton count={10} />}
+            <p className="text-base-content font-normal text-lg/9 text-justify sm:text-left mb-20">
+              {blogData?.description || <Skeleton count={10} />}
             </p>
+            {/* Blog Category */}
+            <div className="mt-5">
+              <p className="mb-2 font-semibold">Category: </p>
+              <div className="flex flex-col sm:flex-row gap-2 wrap-normal w-full">
+                <span className="badge">{blogData?.category}</span>
+              </div>
+            </div>
+            {/* Blog Tags */}
+            <div className="mt-5">
+              <p className="mb-2 font-semibold">Tags: </p>
+              <div className="flex flex-col sm:flex-row gap-2 wrap-normal w-full">
+                {blogData?.tags?.map((tag, i) => (
+                  <span key={i} className="badge">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         {/* Related news (right) */}
@@ -158,85 +207,71 @@ const SingleBlog = () => {
           {/* <div className="sticky top-5 flex flex-col gap-5"> */}
           <div className="flex flex-col gap-5">
             <h1 className="text-2xl font-semibold">Related News</h1>
-            {/* News 2 */}
-            <div className="flex gap-3">
-              {/* Image */}
-              <div className="w-[140px]  h-[80px] sm:h-[120px]">
-                {(
-                  <img
-                    src={blogData?.coverImage}
-                    className="w-full h-full object-cover rounded-2xl"
-                    alt=""
-                  />
-                ) || <Skeleton className="h-full w-full" borderRadius="16px" />}
+
+            {/* News 01 */}
+            {isRelatedLoading ? (
+              <Spinner />
+            ) : relatedBlogs?.length ? (
+              relatedBlogs?.map((blog, i) => (
+                <div key={i} className="flex gap-3">
+                  {/* Image */}
+                  <Link
+                    to={`/single-blog/${blog?._id}`}
+                    className="w-[140px]  h-[80px] sm:h-[120px] hover:opacity-80 transition"
+                  >
+                    {(
+                      <img
+                        src={blog?.coverImage}
+                        className="w-full h-full object-cover rounded-2xl"
+                        alt=""
+                      />
+                    ) || <Skeleton className="h-full w-full" borderRadius="16px" />}
+                  </Link>
+                  {/* Content */}
+                  <div className="w-full">
+                    {/* News title */}
+                    <Link
+                      to={`/single-blog/${blog?._id}`}
+                      className="font-semibold text-sm hover:text-primary transition"
+                    >
+                      {isRelatedLoading ? <Skeleton count={2} /> : blog?.title}
+                    </Link>
+                    {/* Date */}
+                    <p className="text-base-content/50">
+                      {isRelatedLoading ? (
+                        <Skeleton count={1} />
+                      ) : (
+                        format(new Date(blog?.publishedAt), "dd-MM-yyyy")
+                      )}
+                    </p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div role="alert" className="alert">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="stroke-primary h-6 w-6 shrink-0"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <span>No related news found</span>
               </div>
-              {/* Content */}
-              <div className="w-full">
-                {/* News title */}
-                <h1 className="font-semibold text-sm">
-                  {isPending ? <Skeleton count={2} /> : blogData?.title}
-                </h1>
-                {/* Date */}
-                <p className="text-base-content/50">
-                  {isPending ? <Skeleton count={1} /> : blogData?.publishedAt}
-                </p>
-              </div>
-            </div>
-            {/* News 3 */}
-            <div className="flex gap-3">
-              {/* Image */}
-              <div className="w-[140px]  h-[80px] sm:h-[120px]">
-                {(
-                  <img
-                    src={blogData?.coverImage}
-                    className="w-full h-full object-cover rounded-2xl"
-                    alt=""
-                  />
-                ) || <Skeleton className="h-full w-full" borderRadius="16px" />}
-              </div>
-              {/* Content */}
-              <div className="w-full">
-                {/* News title */}
-                <h1 className="font-semibold text-sm">
-                  {isPending ? <Skeleton count={2} /> : blogData?.title}
-                </h1>
-                {/* Date */}
-                <p className="text-base-content/50">
-                  {isPending ? <Skeleton count={1} /> : blogData?.publishedAt}
-                </p>
-              </div>
-            </div>
-            {/* News 1 */}
-            <div className="flex gap-3">
-              {/* Image */}
-              <div className="w-[140px]  h-[80px] sm:h-[120px]">
-                {(
-                  <img
-                    src={blogData?.coverImage}
-                    className="w-full h-full object-cover rounded-2xl"
-                    alt=""
-                  />
-                ) || <Skeleton className="h-full w-full" borderRadius="16px" />}
-              </div>
-              {/* Content */}
-              <div className="w-full">
-                {/* News title */}
-                <h1 className="font-semibold text-sm">
-                  {isPending ? <Skeleton count={2} /> : blogData?.title}
-                </h1>
-                {/* Date */}
-                <p className="text-base-content/50">
-                  {isPending ? <Skeleton count={1} /> : blogData?.publishedAt}
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
       <div className="divider"></div>
       {/* Comment Section */}
+      <h1 className="text-xl font-semibold">Write your comment</h1>
       <div className="py-10 sm:w-[80%] w-full">
-        <h1 className="text-xl font-semibold mb-5">0 Comments</h1>
         <form>
           <div className="join w-full md:w-2/3 xl:w-1/2 flex gap-2 flex-col">
             <textarea
@@ -247,6 +282,7 @@ const SingleBlog = () => {
           </div>
         </form>
         {/* Comments */}
+        <h1 className="text-xl font-semibold mt-10">0 Comments</h1>
         <div className="flex flex-col gap-14 mt-10">
           {/* Comment 1 */}
           <div className="flex gap-3">

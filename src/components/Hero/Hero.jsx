@@ -1,16 +1,17 @@
 import ArticleTemplate from "../../components/ArticleTemplate/ArticleTemplate";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import Skeleton from "react-loading-skeleton";
 
 const Hero = () => {
   const fetchBannerBlogs = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/banner-blogs`);
+    const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/featured-banners`);
     return data;
   };
 
   // Fetching blogs data using tanStack query
   const { isPending, data: featuredBlogs } = useQuery({
-    queryKey: ["banner-blogs"],
+    queryKey: ["featured-banners"],
     queryFn: fetchBannerBlogs,
   });
 
@@ -32,15 +33,17 @@ const Hero = () => {
 
       {/* grid 2 */}
       <div className="grid gap-2 md:gap-5 grid-cols-2">
-        {rightFeaturedBlogs?.map((blog) => (
-          <ArticleTemplate
-            id={blog?._id}
-            title={blog?.title}
-            imageURL={blog?.coverImage}
-            key={blog._id}
-            category={blog?.category}
-          />
-        ))}
+        {isPending
+          ? [...Array(4)].map((_, i) => <Skeleton key={i} height={220} />)
+          : rightFeaturedBlogs?.map((blog) => (
+              <ArticleTemplate
+                id={blog?._id}
+                title={blog?.title}
+                imageURL={blog?.coverImage}
+                key={blog._id}
+                category={blog?.category}
+              />
+            ))}
       </div>
     </div>
   );

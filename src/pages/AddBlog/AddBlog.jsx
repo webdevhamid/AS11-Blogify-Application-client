@@ -1,15 +1,18 @@
-import { Link } from "react-router";
 import { FaEdit } from "react-icons/fa";
 import "./AddBlog.css";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import PageTitle from "../../components/PageTitle/PageTitle";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const AddBlog = () => {
   const [slugValue, setSlugValue] = useState(null);
   const [readOnlyValue, setReadOnlyValue] = useState(true);
   const [featureBannerPost, setFeatureBannerPost] = useState("NO");
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   // Slug Handler
   const handleSlug = (e) => {
@@ -28,13 +31,60 @@ const AddBlog = () => {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     const form = e.target;
-    // Uncontrolled Form Data
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
+    const title = form.title.value;
+    const slug = form.slug.value;
+    const coverImage = form.coverImage.value;
+    const category = form.category.value;
+    const excerpt = form.shortDescription.value;
+    const description = form.description.value;
+    const breakingNews = form.breakingNews.value === "YES" ? true : false;
+    const featured = form.featurePost.value === "YES" ? true : false;
+    const featuredBanner = form.featureBanner.value === "YES" ? true : false;
+    const featuredOrder = featuredBanner !== true ? null : parseInt(form.bannerOrder.value);
+    const tags = form.tags.value.trim("").split(", ");
+    const authorName = form.authorName.value;
+    const authorEmail = form.authorEmail.value;
+    const userAvatar = user?.photoURL;
+    const author = {
+      name: authorName,
+      avatar: userAvatar,
+      email: authorEmail,
+    };
+    const publishedAt = new Date().toISOString();
 
-    // Post the data
-    // const response = await
+    const postData = {
+      title,
+      slug,
+      coverImage,
+      category,
+      excerpt,
+      description,
+      breakingNews,
+      featured,
+      featuredBanner,
+      featuredOrder,
+      tags,
+      author,
+      publishedAt,
+    };
+    try {
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/add-blog`, postData);
+      console.log(data);
+
+      if (data.acknowledged) {
+        // Remove form inputs
+        form.reset();
+
+        // Redirect the user to the "My Blogs" page
+        navigate("/my-blogs");
+
+        // Return toast
+        return toast.success("Post successfully added 🎉");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.code);
+    }
   };
 
   return (
@@ -53,6 +103,7 @@ const AddBlog = () => {
                 placeholder="Enter your post title"
                 name="title"
                 required
+                autoComplete="on"
               />
             </div>
             {/* Post Slug */}
@@ -90,25 +141,22 @@ const AddBlog = () => {
             {/* Category */}
             <div className="flex flex-col">
               <label className="label">Category</label>
-              <select
-                defaultValue="Choose a category"
-                required
-                name="category"
-                className="select w-full"
-              >
-                <option>Choose a category</option>
-                <option value={`Technology`}>Technology</option>
-                <option value={`Travel`}>Travel</option>
-                <option value={`Health & Wellness`}>Health & Wellness</option>
-                <option value={`Business`}>Business</option>
-                <option value={`Food & Nutrition`}>Food & Nutrition</option>
-                <option value={`Finance`}>Finance</option>
-                <option value={`Environment`}>Environment</option>
-                <option value={`Productivity`}>Productivity </option>
-                <option value={`Lifestyle`}>Lifestyle</option>
-                <option value={`Education`}>Education</option>
-                <option value={`Lifestyle`}>Lifestyle</option>
-                <option value={`Generic`}>Generic</option>
+              <select defaultValue="" required name="category" className="select w-full">
+                <option value="" disabled>
+                  Choose a category
+                </option>
+                <option>Technology</option>
+                <option>Travel</option>
+                <option>Health & Wellness</option>
+                <option>Business</option>
+                <option>Food & Nutrition</option>
+                <option>Finance</option>
+                <option>Environment</option>
+                <option>Productivity </option>
+                <option>Lifestyle</option>
+                <option>Education</option>
+                <option>Lifestyle</option>
+                <option>Generic</option>
               </select>
             </div>
             {/* Short Description */}
@@ -180,7 +228,6 @@ const AddBlog = () => {
               </div>
 
               <select
-                defaultValue="5"
                 disabled={featureBannerPost === "NO" && true}
                 className={`select w-full`}
                 name="bannerOrder"

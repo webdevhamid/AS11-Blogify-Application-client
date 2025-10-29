@@ -6,7 +6,7 @@ import Hero from "../../components/Hero/Hero";
 
 const Home = () => {
   return (
-    <div className="mt-2 sm:mt-5">
+    <div className="sm:mt-5">
       {/* Marquee (Breaking News) */}
       <BreakingNewsMarquee />
       {/* Hero section */}
