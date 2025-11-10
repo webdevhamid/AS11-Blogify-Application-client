@@ -13,15 +13,15 @@ const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    {/* Query Client Provider */}
-    <QueryClientProvider client={queryClient}>
-      {/* Auth provider */}
-      <AuthProvider>
+    {/* Auth provider */}
+    <AuthProvider>
+      {/* Query Client Provider */}
+      <QueryClientProvider client={queryClient}>
         {/* Application routes goes here */}
         <RouterProvider router={router} />
         {/* Toaster */}
         <Toaster />
-      </AuthProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </AuthProvider>
   </StrictMode>
 );

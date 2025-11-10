@@ -1,18 +1,19 @@
-import axios from "axios";
 import { useParams } from "react-router";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useQuery } from "@tanstack/react-query";
 import CommentSection from "../../components/CommentSection/CommentSection";
 import RelatedNews from "../../components/RelatedNews/RelatedNews";
 import BlogDetails from "../../components/BlogDetails/BlogDetails";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const SingleBlog = () => {
   const { id } = useParams();
   const shareURL = `https://www.aljazeera.com/news/2025/10/25/sudans-army-battles-rsf-advances-in-el-fasher-bara-as-civil-war-rages`;
+  const axiosSecure = useAxiosSecure();
 
   // Fetching blog using tanStack query
   const fetchBlog = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/single-blog/${id}`);
+    const { data } = await axiosSecure.get(`/single-blog/${id}`);
     return data;
   };
 
@@ -24,10 +25,8 @@ const SingleBlog = () => {
 
   // Fetching specific categories news
   const fetchCategoryBlogs = async () => {
-    const { data } = await axios.get(
-      `${import.meta.env.VITE_BASE_URL}/blogs?categoryType=${encodeURIComponent(
-        blogData?.category
-      )}`
+    const { data } = await axiosSecure.get(
+      `/blogs?categoryType=${encodeURIComponent(blogData?.category)}`
     );
     // Filter only unique blogs
     const uniqueBlogs = data.filter((blog) => blog._id !== blogData?._id);

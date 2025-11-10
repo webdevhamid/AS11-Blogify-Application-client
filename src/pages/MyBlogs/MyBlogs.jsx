@@ -1,7 +1,21 @@
 import { Link } from "react-router";
 import PageTitle from "../../components/PageTitle/PageTitle";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 
 const MyBlogs = () => {
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const { data, isPending } = useQuery({
+    queryKey: ["my-blogs"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/my-blogs/${user?.email}`);
+      return data;
+    },
+  });
+
+  console.log(data);
   return (
     <div className="py-10">
       <PageTitle title={"My Blogs"} />

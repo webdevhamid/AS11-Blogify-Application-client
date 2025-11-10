@@ -2,12 +2,14 @@ import Marquee from "react-fast-marquee";
 import { NavLink } from "react-router";
 import { GiElectric } from "react-icons/gi";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import Skeleton from "react-loading-skeleton";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BreakingNewsMarquee = () => {
+  const axiosSecure = useAxiosSecure();
+
   const fetchBreakingNews = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/blogs?breakingNews=${true}`);
+    const { data } = await axiosSecure.get(`/blogs?breakingNews=true`);
     return data;
   };
 

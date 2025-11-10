@@ -2,16 +2,22 @@ import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 import Skeleton from "react-loading-skeleton";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { toast } from "react-hot-toast";
 
 const Navbar = () => {
-  const { user, handleLogout, setUser } = useAuth();
+  const { user, handleLogout } = useAuth();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const handleLogoutUser = async () => {
     await handleLogout();
-    setUser(null);
+    const { data } = await axiosSecure.post(`/logout`);
+    console.log(data);
     navigate("/");
+    toast.success("Logged out successfully!");
   };
+
   const menu = (
     <>
       <li className="">
@@ -108,7 +114,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="bg-base-100 shadow-sm fixed w-full z-10 top-0">
+    <div className="bg-base-100 shadow-sm fixed w-full top-0 z-20">
       <div className="navbar container mx-auto">
         <div className="navbar-start">
           <div className="dropdown">

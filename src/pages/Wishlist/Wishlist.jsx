@@ -1,7 +1,15 @@
 import { Link } from "react-router";
 import PageTitle from "../../components/PageTitle/PageTitle";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
 const Wishlist = () => {
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+
+  const { data } = axiosSecure.get(`/wishlist/${user?.email}`);
+  console.log(data);
+
   return (
     <div className="py-10">
       {/* Page Title */}

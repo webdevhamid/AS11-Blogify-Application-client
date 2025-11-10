@@ -1,12 +1,14 @@
 import IconTitle from "../IconTitle/IconTitle";
 import ArticleTemplate from "../ArticleTemplate/ArticleTemplate";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const RecentPosts = () => {
+  const axiosSecure = useAxiosSecure();
+
   const fetchRecentBlogs = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/recent-blogs`);
+    const { data } = await axiosSecure.get(`/recent-blogs`);
     return data;
   };
 

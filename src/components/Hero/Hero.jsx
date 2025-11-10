@@ -1,11 +1,13 @@
 import ArticleTemplate from "../../components/ArticleTemplate/ArticleTemplate";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Hero = () => {
+  const axiosSecure = useAxiosSecure();
+
   const fetchBannerBlogs = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/featured-banners`);
+    const { data } = await axiosSecure.get(`/featured-banners`);
     return data;
   };
 

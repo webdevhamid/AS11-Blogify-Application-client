@@ -1,7 +1,10 @@
 import { Link } from "react-router";
 import CategoryBadge from "../CategoryBadge/CategoryBadge";
+import { useState } from "react";
 
 const SingleBlogCard = ({ blog }) => {
+  const [toggle, setToggle] = useState(false);
+
   return (
     <div className="flex md:flex-row flex-col gap-5 overflow-hidden border md:h-[250px] relative transition-border duration-200 rounded-2xl blog-shadow dark:!blog-shadow-dark justify-between items-center">
       {/* Blog Image */}
@@ -31,10 +34,10 @@ const SingleBlogCard = ({ blog }) => {
         {/* Blog Actions */}
         <div className="flex flex-row  gap-3 self-start">
           {/* Wishlist Button */}
-          <button className="btn btn-primary hover:btn-outline">
+          <button className="btn btn-primary hover:btn-outline" onClick={() => setToggle(!toggle)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
+              fill={`${toggle === true ? "#fff" : "none"}`}
               viewBox="0 0 24 24"
               strokeWidth="2.5"
               stroke="currentColor"

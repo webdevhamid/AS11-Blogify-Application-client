@@ -11,12 +11,13 @@ import {
 import { app } from "../config/firebase-config";
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
   //    Sign-In Function
@@ -54,23 +55,33 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     //   Current user observer
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        setLoading(false);
-        console.log(user);
-      } else {
-        console.log("User is logged out");
-        setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+
+      // Check if the current user email exist
+      if (currentUser?.email) {
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_URL}/jwt`,
+          {
+            email: currentUser?.email,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(data);
       }
     });
 
     // Cleanup function to stop listening when the component unmount
     return () => {
       // Stop the listener when the component unmount
-      unsubscribe();
+      return unsubscribe();
     };
-  }, [user]);
+  }, []);
+
+  console.log(user);
 
   const authInfo = {
     user,

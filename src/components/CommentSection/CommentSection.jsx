@@ -1,14 +1,15 @@
 import Skeleton from "react-loading-skeleton";
 import useAuth from "./../../hooks/useAuth";
-import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import Spinner from "../Spinner/Spinner";
 import { Link } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const CommentSection = ({ blogData, id }) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const axiosSecure = useAxiosSecure();
 
   // Comment submit handler
   const handleSubmit = async (e) => {
@@ -24,13 +25,12 @@ const CommentSection = ({ blogData, id }) => {
       commenterEmail,
       commenterName,
       commenterAvatar,
+
       blogId,
     };
 
-    // Check if comment data exist
-
     // Post comment
-    const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/add-comment`, commentData);
+    const { data } = await axiosSecure.post(`/add-comment`, commentData);
     console.log(data);
     if (data.acknowledged) {
       toast.success("You comment was sent!");
@@ -43,7 +43,7 @@ const CommentSection = ({ blogData, id }) => {
 
   // Get all comments
   const fetchAllComments = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/comments/${id}`);
+    const { data } = await axiosSecure.get(`/comments/${id}`);
     return data;
   };
 

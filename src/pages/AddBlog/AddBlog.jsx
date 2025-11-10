@@ -3,9 +3,10 @@ import "./AddBlog.css";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AddBlog = () => {
   const [slugValue, setSlugValue] = useState(null);
@@ -13,6 +14,8 @@ const AddBlog = () => {
   const [featureBannerPost, setFeatureBannerPost] = useState("NO");
   const { user } = useAuth();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
 
   // Slug Handler
   const handleSlug = (e) => {
@@ -26,6 +29,28 @@ const AddBlog = () => {
   const handleEditSlug = () => {
     setReadOnlyValue(false);
   };
+
+  // Post handler
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: async (formData) => {
+      // Add a new blog
+      await axiosSecure.post(`/add-blog/${user?.email}`, formData);
+    },
+    onSuccess: async (data) => {
+      console.log(data);
+      // Redirect the user to the "My Blogs" page
+      navigate("/my-blogs");
+
+      // Return toast
+      toast.success("Post successfully added 🎉");
+
+      // Invalidating queries
+      await queryClient.invalidateQueries({ queryKey: ["my-blogs"] });
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   // Form submit handler
   const handleSubmitForm = async (e) => {
@@ -42,8 +67,8 @@ const AddBlog = () => {
     const featuredBanner = form.featureBanner.value === "YES" ? true : false;
     const featuredOrder = featuredBanner !== true ? null : parseInt(form.bannerOrder.value);
     const tags = form.tags.value.trim("").split(", ");
-    const authorName = form.authorName.value;
-    const authorEmail = form.authorEmail.value;
+    const authorName = user?.displayName;
+    const authorEmail = user?.email;
     const userAvatar = user?.photoURL;
     const author = {
       name: authorName,
@@ -68,22 +93,12 @@ const AddBlog = () => {
       publishedAt,
     };
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/add-blog`, postData);
-      console.log(data);
-
-      if (data.acknowledged) {
-        // Remove form inputs
-        form.reset();
-
-        // Redirect the user to the "My Blogs" page
-        navigate("/my-blogs");
-
-        // Return toast
-        return toast.success("Post successfully added 🎉");
-      }
+      // Add a new blog
+      await mutateAsync(postData);
+      // Remove form inputs
+      form.reset();
     } catch (err) {
       console.log(err);
-      toast.error(err.code);
     }
   };
 
@@ -285,7 +300,7 @@ const AddBlog = () => {
               className="btn btn-neutral mt-4 w-full bg-primary hover:bg-red-600 transition text-white border-none outline-0"
               type="submit"
             >
-              Submit
+              {isPending ? "Submitting" : "Submit"}
             </button>
           </div>
         </form>
