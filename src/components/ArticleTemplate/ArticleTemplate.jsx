@@ -1,25 +1,30 @@
-import { Link } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import CategoryBadge from "../CategoryBadge/CategoryBadge";
 import Skeleton from "react-loading-skeleton";
 import "./ArticleTemplate.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useAuth from "./../../hooks/useAuth";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useWishlists from "../../hooks/useWishlists";
 
 const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
   const { user } = useAuth();
-  const [toggleValue, setToggleValue] = useState(false);
   const axiosSecure = useAxiosSecure();
+  const [disableButton, setDisableButton] = useState(false);
+  const queryClient = useQueryClient();
+  const wishlists = useWishlists();
+  const navigate = useNavigate();
 
-  const mutation = useMutation({
+  const addToWishlist = useMutation({
     mutationFn: (wishlistData) => {
       return axiosSecure.post(`/add-wishlist`, wishlistData);
     },
     onSuccess: (data) => {
       toast.success("Post added to your wishlist");
       console.log(data);
+      queryClient.invalidateQueries(["wishlists"]);
     },
     onError: (error) => {
       console.log(error);
@@ -27,8 +32,12 @@ const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
     },
   });
 
-  const handleWishlist = async () => {
-    setToggleValue(!toggleValue);
+  const handleWishlist = () => {
+    if (!user) {
+      return navigate("/login");
+    }
+
+    setDisableButton(true);
 
     const wishListData = {
       postId: id,
@@ -37,9 +46,16 @@ const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
       title,
       postCover: imageURL,
     };
+
     // Add new post to the wishlist
-    mutation.mutate(wishListData);
+    addToWishlist.mutate(wishListData);
   };
+
+  useEffect(() => {
+    if (wishlists && wishlists.some((item) => item.postId === id)) {
+      setDisableButton(true);
+    }
+  }, [wishlists, id]);
 
   if (isPending) return <Skeleton className="h-full max-h-full" />;
   return (
@@ -66,11 +82,11 @@ const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
           className={`btn btn-primary hover:btn-outline absolute right-0 top-12 transform wishlist-button transition duration-200`}
           title="Add to Wishlist"
           onClick={handleWishlist}
-          disabled={toggleValue}
+          disabled={disableButton}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            fill={`${toggleValue === true ? "#fff" : "none"}`}
+            fill={`${disableButton === true ? "#fff" : "none"}`}
             viewBox="0 0 24 24"
             strokeWidth="2.5"
             stroke="currentColor"

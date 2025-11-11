@@ -1,26 +1,7 @@
 import ArticleTemplate from "../../components/ArticleTemplate/ArticleTemplate";
-import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 
-const Hero = () => {
-  const axiosSecure = useAxiosSecure();
-
-  const fetchBannerBlogs = async () => {
-    const { data } = await axiosSecure.get(`/featured-banners`);
-    return data;
-  };
-
-  // Fetching blogs data using tanStack query
-  const { isPending, data: featuredBlogs } = useQuery({
-    queryKey: ["featured-banners"],
-    queryFn: fetchBannerBlogs,
-  });
-
-  //   Get Main Blogs
-  const leftFeaturedBlog = featuredBlogs?.[0];
-  const rightFeaturedBlogs = featuredBlogs?.slice(1, 5);
-
+const Hero = ({ leftFeaturedBlog, rightFeaturedBlogs, isPending }) => {
   return (
     <div className="grid gap-2 md:gap-5 md:grid-cols-2 grid-cols-1 h-[460px]">
       {/* grid 1 */}

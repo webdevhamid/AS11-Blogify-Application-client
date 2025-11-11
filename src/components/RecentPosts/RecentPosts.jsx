@@ -8,7 +8,7 @@ const RecentPosts = () => {
   const axiosSecure = useAxiosSecure();
 
   const fetchRecentBlogs = async () => {
-    const { data } = await axiosSecure.get(`/recent-blogs`);
+    const { data } = await axiosSecure.get(`/blogs?recentPosts=true&limitQuery=true`);
     return data;
   };
 
@@ -16,6 +16,8 @@ const RecentPosts = () => {
     queryKey: ["recent-blogs"],
     queryFn: fetchRecentBlogs,
   });
+
+  console.log(recentBlogs);
 
   return (
     <div className="py-20">

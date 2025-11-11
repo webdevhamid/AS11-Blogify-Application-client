@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 
@@ -6,6 +6,9 @@ const Login = () => {
   const { handleSignIn, user: currentUser, setUser, setLoading, handleGoogleSignIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
+
+  if (user && user?.email) return <Navigate to="/" />;
 
   const handleLogin = async (e) => {
     e.preventDefault();
