@@ -45,7 +45,7 @@ const AddBlog = () => {
       toast.success("Post successfully added 🎉");
 
       // Invalidating queries
-      await queryClient.invalidateQueries({ queryKey: ["my-blogs"] });
+      await queryClient.invalidateQueries({ queryKey: ["my-blogs", "all-blogs"] });
     },
     onError: (err) => {
       console.log(err);

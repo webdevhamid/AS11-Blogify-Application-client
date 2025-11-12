@@ -5,6 +5,7 @@ import CommentSection from "../../components/CommentSection/CommentSection";
 import RelatedNews from "../../components/RelatedNews/RelatedNews";
 import BlogDetails from "../../components/BlogDetails/BlogDetails";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import NotFoundAlert from "../../components/NotFoundAlert/NotFoundAlert";
 
 const SingleBlog = () => {
   const { id } = useParams();
@@ -18,9 +19,14 @@ const SingleBlog = () => {
   };
 
   // TanStack query for fetching "specific blog data"
-  const { data: blogData, isPending } = useQuery({
+  const {
+    data: blogData,
+    isPending,
+    isError,
+  } = useQuery({
     queryKey: ["singleBlog", id],
     queryFn: fetchBlog,
+    retry: false,
   });
 
   // Fetching specific categories news
@@ -42,6 +48,9 @@ const SingleBlog = () => {
   });
 
   console.log(relatedBlogs);
+
+  if (isError || blogData?.success === false)
+    return <NotFoundAlert alertText={blogData?.message || "This post no longer exists."} />;
 
   return (
     <div className="py-10">

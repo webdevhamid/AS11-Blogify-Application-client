@@ -10,12 +10,12 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useWishlists from "../../hooks/useWishlists";
 
 const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
+  const [disableButton, setDisableButton] = useState(false);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const [disableButton, setDisableButton] = useState(false);
   const queryClient = useQueryClient();
-  const wishlists = useWishlists();
   const navigate = useNavigate();
+  const [wishlists] = useWishlists();
 
   const addToWishlist = useMutation({
     mutationFn: (wishlistData) => {
@@ -28,7 +28,7 @@ const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
     },
     onError: (error) => {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.message);
     },
   });
 
@@ -54,8 +54,10 @@ const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
   useEffect(() => {
     if (wishlists && wishlists.some((item) => item.postId === id)) {
       setDisableButton(true);
+    } else {
+      setDisableButton(false);
     }
-  }, [wishlists, id]);
+  }, [wishlists, id, user?.email]);
 
   if (isPending) return <Skeleton className="h-full max-h-full" />;
   return (

@@ -47,11 +47,7 @@ const BlogDetails = ({ isPending, blogData, shareURL }) => {
           {/* Published time */}
           <p className="mt-2 text-xs">
             <span className="font-semibold mr-1">Published at: </span>
-            {isPending ? (
-              <Skeleton width={150} />
-            ) : (
-              format(new Date(blogData?.publishedAt), "dd-MM-yyyy")
-            )}
+            {isPending ? <Skeleton width={150} /> : format(new Date(blogData?.publishedAt), "PPP")}
           </p>
         </div>
         {/* Social Share */}
