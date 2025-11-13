@@ -3,13 +3,15 @@ import useAuth from "./../../hooks/useAuth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import Spinner from "../Spinner/Spinner";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const CommentSection = ({ blogData, id }) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const axiosSecure = useAxiosSecure();
+  const location = useLocation();
+  console.log(location);
 
   // Comment submit handler
   const handleSubmit = async (e) => {
@@ -58,8 +60,8 @@ const CommentSection = ({ blogData, id }) => {
       {/* Comment Section */}
       <div className={`py-10 sm:w-[80%] w-full`}>
         <h1 className="text-xl font-semibold mb-3">Write your comment</h1>
-        {/* Comment Form */}
 
+        {/* Comment Form */}
         {user?.email === blogData?.author?.email ? (
           <div role="alert" className="alert alert-warning alert-soft">
             <span className="text-base-content/60">
@@ -70,7 +72,7 @@ const CommentSection = ({ blogData, id }) => {
           <div role="alert" className="alert alert-warning alert-soft">
             <span className="text-base-content/60">
               Login to comment!{" "}
-              <Link to="/login" className="text-primary">
+              <Link to="/login" className="text-primary" state={location?.pathname}>
                 Login
               </Link>
             </span>

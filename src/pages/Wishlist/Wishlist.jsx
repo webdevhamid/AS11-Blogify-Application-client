@@ -2,7 +2,6 @@ import { Link } from "react-router";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import useWishlists from "../../hooks/useWishlists";
 import Spinner from "./../../components/Spinner/Spinner";
-import NotFoundAlert from "./../../components/NotFoundAlert/NotFoundAlert";
 import useAxiosSecure from "./../../hooks/useAxiosSecure";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -55,7 +54,7 @@ const Wishlist = () => {
                   <td>
                     <div className="flex-col flex md:flex-row gap-2">
                       <Link className="btn btn-xs btn-primary" to={`/single-blog/${post.postId}`}>
-                        Details
+                        Read
                       </Link>
                       <button
                         className="btn btn-xs btn-primary"

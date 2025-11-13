@@ -3,21 +3,19 @@ import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const { handleSignIn, user: currentUser, setUser, setLoading, handleGoogleSignIn } = useAuth();
+  const { handleSignIn, setUser, setLoading, handleGoogleSignIn, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
+  console.log(location);
 
-  if (user && user?.email) return <Navigate to="/" />;
+  if (user && user?.email)
+    return <Navigate to={location?.state || "/"} state={location?.pathname} />;
 
   const handleLogin = async (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-
-    // Check if the user logged in,
-    if (currentUser) return;
 
     // Handle Login
     try {
@@ -26,7 +24,6 @@ const Login = () => {
       setLoading(false);
       navigate(location?.state ? location?.state : "/");
       console.log(user);
-      navigate(location?.state ? location?.state : "/");
     } catch (err) {
       setLoading(false);
       toast.error(err.code);

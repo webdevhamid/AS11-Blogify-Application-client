@@ -1,13 +1,10 @@
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useAuth from "./../../hooks/useAuth";
 import toast from "react-hot-toast";
 
 const Register = () => {
   const { handleSignUp, setUser, updateUserProfile, setLoading } = useAuth();
   const navigate = useNavigate();
-  const { user } = useAuth();
-
-  if (user && user?.email) return <Navigate to="/" />;
 
   const handleRegistration = async (e) => {
     e.preventDefault();

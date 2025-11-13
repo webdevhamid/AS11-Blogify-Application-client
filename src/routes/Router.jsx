@@ -11,6 +11,8 @@ import SingleBlog from "../pages/SingleBlog/SingleBlog";
 import MyBlogs from "../pages/MyBlogs/MyBlogs";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import Wishlist from "../pages/Wishlist/Wishlist";
+import EditBlog from "../pages/EditBlog/EditBlog";
+import axios from "axios";
 
 const router = createBrowserRouter([
   {
@@ -22,11 +24,11 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
       {
-        path: "/register",
+        path: "register",
         element: <Register />,
       },
       {
@@ -56,6 +58,13 @@ const router = createBrowserRouter([
       {
         path: "single-blog/:id",
         element: <SingleBlog />,
+      },
+      {
+        path: "edit/:id",
+        element: <EditBlog />,
+        loader: async ({ params }) =>
+          await axios.get(`${import.meta.env.VITE_API_URL}/single-blog/${params.id}`),
+        errorElement: <NotFoundPage />,
       },
       {
         path: "my-blogs",

@@ -5,8 +5,17 @@ import { format } from "date-fns";
 import { Link } from "react-router";
 import { FaEdit } from "react-icons/fa";
 import { IoShareSocial } from "react-icons/io5";
+import useAuth from "../../hooks/useAuth";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+import "react-photo-view/dist/react-photo-view.css";
 
 const BlogDetails = ({ isPending, blogData, shareURL }) => {
+  const { user } = useAuth();
+
+  const isBlogAuthor = blogData?.author.email === user?.email;
+  console.log(isBlogAuthor);
+  console.log(blogData);
+
   return (
     <div>
       <div className="flex items-center gap-2 justify-between">
@@ -16,17 +25,23 @@ const BlogDetails = ({ isPending, blogData, shareURL }) => {
         </h1>
 
         {/* Blog Edit Button */}
-        <div className="tooltip" data-tip="Edit blog">
-          <Link className="btn btn-neutral">
-            <FaEdit />
-          </Link>
-        </div>
+        {isBlogAuthor && (
+          <div className="tooltip" data-tip="Edit blog">
+            <Link className="btn btn-neutral" to={`/edit/${blogData?._id}`}>
+              <FaEdit />
+            </Link>
+          </div>
+        )}
       </div>
       {/* Cover Image */}
       {isPending ? (
         <Skeleton className="w-full my-10 h-full" height={376} />
       ) : (
-        <img src={blogData.coverImage} className="w-full my-10" alt="" />
+        <PhotoProvider>
+          <PhotoView src={blogData.coverImage}>
+            <img src={blogData.coverImage} className="w-full my-10 hover:cursor-zoom-in" alt="" />
+          </PhotoView>
+        </PhotoProvider>
       )}
       <div className="my-5 flex justify-between items-center">
         {/* Author Info */}

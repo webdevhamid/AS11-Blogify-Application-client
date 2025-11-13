@@ -55,7 +55,9 @@ const MyBlogs = () => {
                 <td>{blog.category}</td>
                 <td>
                   <div className="flex-col flex md:flex-row gap-2">
-                    <Link className="btn btn-xs btn-primary">Edit</Link>
+                    <Link className="btn btn-xs btn-primary" to={`/edit/${blog?._id}`}>
+                      Edit
+                    </Link>
                     <Link
                       className="btn btn-xs btn-primary"
                       onClick={() =>

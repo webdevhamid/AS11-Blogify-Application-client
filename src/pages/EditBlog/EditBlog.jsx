@@ -1,22 +1,37 @@
 import { FaEdit } from "react-icons/fa";
-import "./AddBlog.css";
+import "../AddBlog/AddBlog.css";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { Link, useLoaderData, useNavigate } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
-const AddBlog = () => {
-  const [slugValue, setSlugValue] = useState(null);
+const EditBlog = () => {
+  const { data: loadedBlogData } = useLoaderData();
+  const {
+    _id,
+    title,
+    category,
+    coverImage,
+    description,
+    excerpt,
+    featured,
+    featuredBanner,
+    featuredOrder,
+    slug,
+    tags,
+    breakingNews,
+  } = loadedBlogData || {};
+
+  const [slugValue, setSlugValue] = useState(slug);
   const [readOnlyValue, setReadOnlyValue] = useState(true);
-  const [featureBannerPost, setFeatureBannerPost] = useState("NO");
+  const [featureBannerPost, setFeatureBannerPost] = useState(featuredBanner);
   const { user } = useAuth();
-  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
-  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   // Slug Handler
   const handleSlug = (e) => {
@@ -25,25 +40,12 @@ const AddBlog = () => {
     setSlugValue(generatedSlug);
   };
 
-  // Post handler
+  // Post update handler
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (formData) => {
-      // Add a new blog
-      await axiosSecure.post(`/add-blog/${user?.email}`, formData);
-    },
-    onSuccess: async (data) => {
-      console.log(data);
-      // Redirect the user to the "My Blogs" page
-      navigate("/my-blogs");
-
-      // Return toast
-      toast.success("Post successfully added 🎉");
-
-      // Invalidating queries
-      await queryClient.invalidateQueries({ queryKey: ["my-blogs", "all-blogs"] });
-    },
-    onError: (err) => {
-      console.log(err);
+      // Update blog
+      const { data } = await axiosSecure.patch(`/update-blog/${_id}`, formData);
+      return data;
     },
   });
 
@@ -70,7 +72,7 @@ const AddBlog = () => {
       avatar: userAvatar,
       email: authorEmail,
     };
-    const publishedAt = new Date().toISOString();
+    const updatedAt = new Date().toISOString();
 
     const postData = {
       title,
@@ -85,34 +87,34 @@ const AddBlog = () => {
       featuredOrder,
       tags,
       author,
-      publishedAt,
+      updatedAt,
     };
+
     try {
       const result = await Swal.fire({
-        title: "Do you want to submit the post?",
+        title: "Do you want to save the changes?",
         showDenyButton: true,
         showCancelButton: true,
-        confirmButtonText: "Submit",
-        denyButtonText: `Don't Submit`,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`,
       });
 
       if (result.isConfirmed) {
-        // Add a new blog
-        await mutateAsync(postData);
-        // Remove form inputs
-        form.reset();
-        Swal.fire("Submitted!", "", "success");
-      } else if (result.isDenied) {
-        Swal.fire("Changes are not saved", "", "info");
+        const response = await mutateAsync(postData);
+        navigate(`/single-blog/${_id}`);
+        // Success message
+        Swal.fire("Saved!", "Your blog has been updated successfully.", "success");
+        console.log(response);
       }
     } catch (err) {
       console.log(err);
+      toast.error("Something went wrong");
     }
   };
 
   return (
     <div className="py-10">
-      <PageTitle title={"Add New Post"} />
+      <PageTitle title={"Edit Post"} />
       <div className="my-6 bg-gradient-to-b from-base-300 shadow md:w-2/3 mx-auto lg:p-5 md:p-3 p-2">
         <form className="fieldset add-blog" onSubmit={handleSubmitForm}>
           <div className="grid grid-cols-2 gap-5">
@@ -124,12 +126,13 @@ const AddBlog = () => {
                 type="text"
                 className="input"
                 placeholder="Enter your post title"
+                defaultValue={title}
                 name="title"
                 required
                 autoComplete="on"
               />
             </div>
-            {/* Post Slug */}
+            {/* Slug */}
             <div className="flex flex-col">
               <label className="label">Slug</label>
               <div className="join">
@@ -139,7 +142,7 @@ const AddBlog = () => {
                   placeholder="Slug"
                   disabled={readOnlyValue}
                   name="slug"
-                  defaultValue={slugValue}
+                  value={slugValue || ""}
                   onBlur={() => setReadOnlyValue(true)}
                   required
                 />
@@ -159,12 +162,13 @@ const AddBlog = () => {
                 placeholder="Cover Image URL"
                 name="coverImage"
                 required
+                defaultValue={coverImage}
               />
             </div>
             {/* Category */}
             <div className="flex flex-col">
               <label className="label">Category</label>
-              <select defaultValue="" required name="category" className="select w-full">
+              <select defaultValue={category} required name="category" className="select w-full">
                 <option value="" disabled>
                   Choose a category
                 </option>
@@ -191,6 +195,7 @@ const AddBlog = () => {
                 placeholder="Enter Short Description"
                 name="shortDescription"
                 required
+                defaultValue={excerpt}
               ></textarea>
             </div>
             {/* Description */}
@@ -201,6 +206,7 @@ const AddBlog = () => {
                 placeholder="Description"
                 name="description"
                 required
+                defaultValue={description}
               ></textarea>
             </div>
             {/* Breaking News Option */}
@@ -211,7 +217,11 @@ const AddBlog = () => {
               >
                 <label className="label cursor-help">Make It Breaking News? (optional)</label>
               </div>
-              <select defaultValue="NO" className="select w-full" name="breakingNews">
+              <select
+                defaultValue={breakingNews === true ? "YES" : "NO"}
+                className="select w-full"
+                name="breakingNews"
+              >
                 <option>Choose option</option>
                 <option>YES</option>
                 <option>NO</option>
@@ -222,7 +232,11 @@ const AddBlog = () => {
               <div className="tooltip" data-tip="This post will be displayed in the featured page">
                 <label className="label cursor-help">Feature Post (optional)</label>
               </div>
-              <select defaultValue="NO" className="select w-full" name="featurePost">
+              <select
+                defaultValue={featured === true ? "YES" : "NO"}
+                className="select w-full"
+                name="featurePost"
+              >
                 <option>Choose option</option>
                 <option>YES</option>
                 <option>NO</option>
@@ -234,7 +248,7 @@ const AddBlog = () => {
                 <label className="label cursor-help">Feature It on Home Banner? (optional)</label>
               </div>
               <select
-                defaultValue="NO"
+                defaultValue={featuredBanner === true ? "YES" : "NO"}
                 className="select w-full"
                 onChange={(e) => setFeatureBannerPost(e.target.value)}
                 name="featureBanner"
@@ -245,18 +259,22 @@ const AddBlog = () => {
               </select>
             </div>
             {/* Banner Order */}
-            <div className={`flex flex-col ${featureBannerPost !== "YES" && "hidden"}`}>
+            <div
+              className={`flex flex-col ${
+                featureBannerPost !== "YES" && featureBannerPost !== true && "hidden"
+              }`}
+            >
               <div className="tooltip" data-tip="Set the banner order">
                 <label className="label cursor-help">Banner Order</label>
               </div>
 
               <select
-                disabled={featureBannerPost === "NO" && true}
                 className={`select w-full`}
                 name="bannerOrder"
                 required
+                defaultValue={featuredOrder}
               >
-                <option>Choose option</option>
+                <option value={""}>Choose option</option>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -273,6 +291,7 @@ const AddBlog = () => {
                 placeholder="Comma separated tags"
                 name="tags"
                 required
+                defaultValue={tags}
               />
             </div>
             {/* Author Name */}
@@ -317,4 +336,4 @@ const AddBlog = () => {
   );
 };
 
-export default AddBlog;
+export default EditBlog;

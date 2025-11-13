@@ -12,20 +12,17 @@ const SingleBlog = () => {
   const shareURL = `https://www.aljazeera.com/news/2025/10/25/sudans-army-battles-rsf-advances-in-el-fasher-bara-as-civil-war-rages`;
   const axiosSecure = useAxiosSecure();
 
-  // Fetching blog using tanStack query
-  const fetchBlog = async () => {
-    const { data } = await axiosSecure.get(`/single-blog/${id}`);
-    return data;
-  };
-
-  // TanStack query for fetching "specific blog data"
+  // fetching "specific blog data"
   const {
     data: blogData,
     isPending,
     isError,
   } = useQuery({
     queryKey: ["singleBlog", id],
-    queryFn: fetchBlog,
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/single-blog/${id}`);
+      return data;
+    },
     retry: false,
   });
 
@@ -39,7 +36,7 @@ const SingleBlog = () => {
     return uniqueBlogs;
   };
 
-  // TanStack query for fetching "category specific blogs"
+  // fetching "category specific blogs"
   const { data: relatedBlogs, isPending: isRelatedLoading } = useQuery({
     queryKey: ["categoryBlogs", blogData?.category, id],
     queryFn: fetchCategoryBlogs,
