@@ -13,6 +13,7 @@ import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import EditBlog from "../pages/EditBlog/EditBlog";
 import axios from "axios";
 import Wishlist from "../pages/Wishlist/Wishlist";
+import AuthLayout from "../layout/AuthLayout";
 
 const router = createBrowserRouter([
   {
@@ -23,14 +24,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
-      },
+
       {
         path: "add-blog",
         element: (
@@ -73,6 +67,20 @@ const router = createBrowserRouter([
             <MyBlogs />
           </PrivateRoutes>
         ),
+      },
+    ],
+  },
+  {
+    path: "auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
     ],
   },

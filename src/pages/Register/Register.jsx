@@ -95,7 +95,7 @@ const Register = () => {
               {/* Registration link */}
               <div className="flex gap-1.5 mt-3">
                 <span>Already have an account?</span>
-                <Link to={"/login"} className="hover:font-medium transition">
+                <Link to={"/auth/login"} className="hover:font-medium transition">
                   Login
                 </Link>
               </div>

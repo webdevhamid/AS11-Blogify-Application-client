@@ -190,7 +190,7 @@ const Navbar = () => {
             <ul className="flex gap-1 sm:gap-2">
               <li className="hover:text-primary transition text-sm sm:text-lg">
                 <NavLink
-                  to={`/login`}
+                  to={`/auth/login`}
                   className={({ isActive }) => [isActive ? "text-primary transition" : ""]}
                 >
                   Login
@@ -198,7 +198,7 @@ const Navbar = () => {
               </li>
               <li className="hover:text-primary transition text-sm sm:text-lg">
                 <NavLink
-                  to={`/register`}
+                  to={`/auth/register`}
                   className={({ isActive }) => [isActive ? "text-primary transition" : ""]}
                 >
                   Register

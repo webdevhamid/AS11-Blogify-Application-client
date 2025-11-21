@@ -69,7 +69,7 @@ const Login = () => {
 
               <div className="flex gap-1.5 mt-3">
                 <span>Don't have an account?</span>
-                <Link to={"/register"} className="hover:font-medium transition">
+                <Link to={"/auth/register"} className="hover:font-medium transition">
                   Register
                 </Link>
               </div>
