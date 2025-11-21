@@ -6,7 +6,7 @@ import useAuth from "./../../hooks/useAuth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
-const ArticleTemplate = ({ title, imageURL, id, category }) => {
+const ArticleTemplate = ({ title, imageURL, id, category, featuredBlog }) => {
   const { user, loading: authLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
@@ -82,7 +82,9 @@ const ArticleTemplate = ({ title, imageURL, id, category }) => {
       <div>
         <Link
           to={`/single-blog/${id}`}
-          className="md:text-sm lg:text-lg sm:text-[14px] text-sm absolute bottom-0 left-0 text-white text-shadow-base-300 font-medium hover:text-red-400 transform duration-500 p-2 sm:p-5 hover:underline cursor-pointer"
+          className={`md:text-sm lg:text-lg sm:text-[14px] text-sm absolute bottom-0 left-0 text-white text-shadow-base-300 font-medium hover:text-red-400 transform duration-500 p-2 sm:p-5 hover:underline cursor-pointer ${
+            featuredBlog && "lg:!text-3xl md:!text-2xl !text-xl"
+          }`}
         >
           {title}
         </Link>

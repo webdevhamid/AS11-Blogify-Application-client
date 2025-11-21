@@ -15,6 +15,7 @@ const Hero = ({ leftFeaturedBlog, rightFeaturedBlogs, isPending }) => {
           imageURL={leftFeaturedBlog?.coverImage}
           category={leftFeaturedBlog?.category}
           isPending={isPending}
+          featuredBlog={true}
         />
       )}
 

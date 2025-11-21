@@ -37,11 +37,11 @@ const AllBlogs = () => {
       <div>
         {/* Page Title */}
         <PageTitle title={"All Blogs"} />
-        <div className="flex gap-3 justify-between mb-5">
+        <div className="flex sm:flex-row flex-col gap-3 justify-between mb-5">
           {/* Filter by Category */}
           <select
             defaultValue=""
-            className="select w-[250px]"
+            className="select sm:w-[250px] w-full"
             onChange={(e) => setFilterCategory(e.target.value)}
           >
             <option value={""} disabled>
@@ -63,7 +63,7 @@ const AllBlogs = () => {
           </select>
           {/* Search Box */}
           <form onSubmit={handleSubmit}>
-            <div className="join w-[350px]">
+            <div className="join sm:w-[350px] w-full">
               <div className="w-full">
                 <div>
                   <input

@@ -113,9 +113,9 @@ const AddBlog = () => {
   return (
     <div className="py-10">
       <PageTitle title={"Add New Post"} />
-      <div className="my-6 bg-gradient-to-b from-base-300 shadow md:w-2/3 mx-auto lg:p-5 md:p-3 p-2">
+      <div className="my-6 bg-gradient-to-b from-base-300 shadow lg:w-2/3 w-full mx-auto lg:p-5 md:p-3 p-2">
         <form className="fieldset add-blog" onSubmit={handleSubmitForm}>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="md:grid md:grid-cols-2 gap-5">
             <div className="flex flex-col">
               {/* Title */}
               <label className="label">Title</label>
@@ -132,7 +132,7 @@ const AddBlog = () => {
             {/* Post Slug */}
             <div className="flex flex-col">
               <label className="label">Slug</label>
-              <div className="join">
+              <div className="join w-full">
                 <input
                   type="text"
                   className={`input join-item ${!readOnlyValue ? "border-green-500" : ""}`}

@@ -112,7 +112,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="bg-base-100 shadow-sm w-full fixed left-0 top-0 z-20">
+    <div className="bg-base-100 shadow-sm w-full fixed z-20 top-0 left-0 right-0">
       <div className="navbar container mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -139,6 +139,7 @@ const Navbar = () => {
               {menu}
             </ul>
           </div>
+          {/* Logo */}
           <Link
             to={`/`}
             className="font-BBH text-neutral dark:text-base-content font-bold md:text-3xl sm:text-xl uppercase"
