@@ -9,7 +9,7 @@
 
 /* Tailwind CSS Directive for custom font */
 @theme {
-  --font-theme: "Bricolage Grotesque", sans-serif;
+  --font-theme: "Bricolage Grotesque", "sans-serif";
 }
 
 /* DaisyUI Directive for customize an existing theme (light) */
@@ -26,5 +26,5 @@
 
 /* DaisyUI directive for custom button */
 /* @utility btn {
-  @apply rounded-full;
+@apply rounded-full;
 } */

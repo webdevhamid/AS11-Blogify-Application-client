@@ -32,7 +32,7 @@ const AddBlog = () => {
       await axiosSecure.post(`/add-blog/${user?.email}`, formData);
     },
     onSuccess: async (data) => {
-      console.log(data);
+      data;
       // Redirect the user to the "My Blogs" page
       navigate("/my-blogs");
 
@@ -43,7 +43,7 @@ const AddBlog = () => {
       await queryClient.invalidateQueries({ queryKey: ["my-blogs", "all-blogs"] });
     },
     onError: (err) => {
-      console.log(err);
+      err;
     },
   });
 
@@ -106,7 +106,7 @@ const AddBlog = () => {
         Swal.fire("Changes are not saved", "", "info");
       }
     } catch (err) {
-      console.log(err);
+      err;
     }
   };
 

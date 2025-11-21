@@ -104,10 +104,10 @@ const EditBlog = () => {
         navigate(`/single-blog/${_id}`);
         // Success message
         Swal.fire("Saved!", "Your blog has been updated successfully.", "success");
-        console.log(response);
+        response;
       }
     } catch (err) {
-      console.log(err);
+      err;
       toast.error("Something went wrong");
     }
   };
@@ -274,7 +274,9 @@ const EditBlog = () => {
                 required
                 defaultValue={featuredOrder}
               >
-                <option value={""}>Choose option</option>
+                <option value={""} disabled>
+                  Choose option
+                </option>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>

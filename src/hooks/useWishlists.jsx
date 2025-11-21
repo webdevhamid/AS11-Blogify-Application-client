@@ -10,11 +10,15 @@ const useWishlists = () => {
   const { data, isPending } = useQuery({
     queryKey: ["wishlists", user?.email],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/wishlist/${user?.email}`);
+      const { data } = await axiosSecure.get(`/wishlists/${user?.email}`, {
+        headers: {
+          Authorization: `Bearer ${user?.accessToken}`,
+        },
+      });
       return data;
     },
 
-    enabled: !!user?.email,
+    enabled: !!user?.email, // prevent auto-run
   });
 
   return [data, isPending];

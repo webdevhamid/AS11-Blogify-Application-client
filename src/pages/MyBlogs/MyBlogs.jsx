@@ -29,7 +29,7 @@ const MyBlogs = () => {
     },
   });
 
-  console.log(myBlogs);
+  myBlogs;
   return (
     <div className="py-10">
       <PageTitle title={"My Blogs"} />

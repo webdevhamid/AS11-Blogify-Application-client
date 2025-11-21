@@ -1,43 +1,60 @@
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import CategoryBadge from "../CategoryBadge/CategoryBadge";
-import Skeleton from "react-loading-skeleton";
 import "./ArticleTemplate.css";
-import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useAuth from "./../../hooks/useAuth";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import useWishlists from "../../hooks/useWishlists";
 
-const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
-  const [disableButton, setDisableButton] = useState(false);
-  const { user } = useAuth();
+const ArticleTemplate = ({ title, imageURL, id, category }) => {
+  const { user, loading: authLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [wishlists] = useWishlists();
 
+  // Check if a specific post is wishListed
+  // const { data: wishlistCheck, isLoading } = useQuery({
+  //   queryKey: ["wishlist-check", id, user?.email],
+  //   queryFn: async () => {
+  //     const { data } = await axiosSecure.get(`/wishlist/${id}`);
+  //     return data;
+  //   },
+  //   onSuccess: (data) => {
+  //     console.log(data.exists);
+  //   },
+  //   enabled: !authLoading && !!user?.email,
+  // });
+
+  // Mutation to add wishlist
   const addToWishlist = useMutation({
     mutationFn: (wishlistData) => {
       return axiosSecure.post(`/add-wishlist`, wishlistData);
     },
     onSuccess: (data) => {
-      toast.success("Post added to your wishlist");
+      toast.success("Added to wishlist");
+      // setDisableButton(true);
       console.log(data);
-      queryClient.invalidateQueries(["wishlists"]);
+
+      queryClient.invalidateQueries({
+        queryKey: ["wishlist-check", id, user?.email],
+      });
     },
     onError: (error) => {
-      console.log(error);
-      toast.error(error.message);
+      toast.error(error.response?.data?.message || "something went wrong");
+      // setDisableButton(false);
     },
   });
 
+  // Disable button state
+  // const buttonDisabled = isLoading || wishlistCheck?.exists || authLoading;
+
+  // wishlist click handler
   const handleWishlist = () => {
     if (!user) {
       return navigate("/login");
     }
 
-    setDisableButton(true);
+    // setDisableButton(true);
 
     const wishListData = {
       postId: id,
@@ -46,20 +63,10 @@ const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
       title,
       postCover: imageURL,
     };
-
-    // Add new post to the wishlist
+    // Add the post to the wishlist
     addToWishlist.mutate(wishListData);
   };
 
-  useEffect(() => {
-    if (wishlists && wishlists.some((item) => item.postId === id)) {
-      setDisableButton(true);
-    } else {
-      setDisableButton(false);
-    }
-  }, [wishlists, id, user?.email]);
-
-  if (isPending) return <Skeleton className="h-full max-h-full" />;
   return (
     <div
       className={`relative overflow-hidden bg-center bg-cover w-full max-h-full article-template z-10`}
@@ -75,7 +82,7 @@ const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
       <div>
         <Link
           to={`/single-blog/${id}`}
-          className="md:text-sm lg:text-lg text-sm absolute bottom-0 left-0 text-white text-shadow-base-300 font-medium hover:text-red-400 transform duration-500 p-5 hover:underline cursor-pointer"
+          className="md:text-sm lg:text-lg sm:text-[14px] text-sm absolute bottom-0 left-0 text-white text-shadow-base-300 font-medium hover:text-red-400 transform duration-500 p-2 sm:p-5 hover:underline cursor-pointer"
         >
           {title}
         </Link>
@@ -84,11 +91,11 @@ const ArticleTemplate = ({ title, imageURL, id, category, isPending }) => {
           className={`btn btn-primary hover:btn-outline absolute right-0 top-12 transform wishlist-button transition duration-200`}
           title="Add to Wishlist"
           onClick={handleWishlist}
-          disabled={disableButton}
+          // disabled={buttonDisabled}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            fill={`${disableButton === true ? "#fff" : "none"}`}
+            // fill={`${buttonDisabled === true ? "#fff" : "none"}`}
             viewBox="0 0 24 24"
             strokeWidth="2.5"
             stroke="currentColor"

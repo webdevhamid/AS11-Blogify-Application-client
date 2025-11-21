@@ -11,7 +11,7 @@ const CommentSection = ({ blogData, id }) => {
   const queryClient = useQueryClient();
   const axiosSecure = useAxiosSecure();
   const location = useLocation();
-  console.log(location);
+  location;
 
   // Comment submit handler
   const handleSubmit = async (e) => {
@@ -33,7 +33,7 @@ const CommentSection = ({ blogData, id }) => {
 
     // Post comment
     const { data } = await axiosSecure.post(`/add-comment`, commentData);
-    console.log(data);
+    data;
     if (data.acknowledged) {
       toast.success("You comment was sent!");
       form.reset();
@@ -108,11 +108,11 @@ const CommentSection = ({ blogData, id }) => {
           ) : (
             comments?.map((comment) => (
               <div key={comment._id} className="flex gap-3">
-                <div className="min-w-[40px] h-[40px]">
+                <div className="w-[40px] h-[40px]">
                   {(
                     <img
                       src={comment?.commenterAvatar}
-                      className="w-full h-full rounded-full"
+                      className="w-full h-full rounded-full object-cover"
                       alt=""
                     />
                   ) || <Skeleton className="h-full w-full" circle={true} />}

@@ -1,107 +1,109 @@
 import { Link, useNavigate } from "react-router";
 import CategoryBadge from "../CategoryBadge/CategoryBadge";
-import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useWishlists from "../../hooks/useWishlists";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
+import TruncateText from "../../utility/TruncateText";
 
 const SingleBlogCard = ({ blog }) => {
-  const [disableButton, setDisableButton] = useState(false);
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [wishlists] = useWishlists();
 
+  // Check if a specific post is wishListed
+  // const { data: wishlistCheck, isLoading } = useQuery({
+  //   queryKey: ["wishlist-check", blog?._id, user?.email],
+  //   queryFn: async () => {
+  //     const { data } = await axiosSecure.get(`/wishlist/${blog?._id}`);
+  //     return data;
+  //   },
+  //   onSuccess: (data) => {
+  //     console.log(data.exists);
+  //   },
+  //   enabled: !!user?.email,
+  // });
+
+  // Mutation to add wishlist
   const addToWishlist = useMutation({
     mutationFn: (wishlistData) => {
-      // Add new wishlist
       return axiosSecure.post(`/add-wishlist`, wishlistData);
     },
-    onSuccess: async (data) => {
-      toast.success("Post added to your wishlist");
+    onSuccess: (data) => {
+      toast.success("Added to wishlist");
+      // setDisableButton(true);
       console.log(data);
-      queryClient.invalidateQueries({ queryKey: ["wishlists"] });
+
+      queryClient.invalidateQueries({
+        queryKey: ["wishlist-check", blog?._id, user?.email],
+      });
     },
     onError: (error) => {
-      console.log(error.message);
-      toast.error("Post already wishlisted!");
+      toast.error(error.response?.data?.message || "something went wrong");
+      // setDisableButton(false);
     },
   });
 
-  const handleWishlist = async () => {
-    try {
-      if (!user) {
-        return navigate("/login");
-      }
-
-      setDisableButton(true);
-
-      const wishListData = {
-        postId: blog._id,
-        userEmail: user?.email,
-        category: blog.category,
-        title: blog.title,
-        postCover: blog.coverImage,
-      };
-
-      // Add new post to the wishlist
-      const response = await addToWishlist.mutateAsync(wishListData);
-      console.log(response);
-      queryClient.invalidateQueries({ queryKey: ["wishlists"] });
-    } catch (err) {
-      console.log(err);
+  // wishlist click handler
+  const handleWishlist = () => {
+    if (!user) {
+      return navigate("/login");
     }
+
+    // setDisableButton(true);
+
+    const wishListData = {
+      postId: blog?._id,
+      userEmail: user?.email,
+      category: blog?.category,
+      title: blog?.title,
+      postCover: blog?.coverImage,
+    };
+    // Add the post to the wishlist
+    addToWishlist.mutate(wishListData);
   };
 
-  useEffect(() => {
-    if (wishlists && wishlists.some((item) => item.postId === blog._id)) {
-      setDisableButton(true);
-    } else {
-      setDisableButton(false);
-    }
-  }, [wishlists, blog._id, user?.email]);
+  // Disable button state
+  // const buttonDisabled = isLoading || wishlistCheck?.exists || authLoading;
 
   return (
-    <div className="flex md:flex-row flex-col gap-5 overflow-hidden border md:h-[250px] relative transition-border duration-200 rounded-2xl blog-shadow dark:!blog-shadow-dark justify-between items-center">
+    <div className="flex flex-col gap-5 overflow-hidden border relative transition-border duration-200 rounded-2xl blog-shadow dark:!blog-shadow-dark max-h-[415px] min-h-[350px]">
       {/* Blog Image */}
-      <Link to={`/single-blog/${blog?._id}`} className="flex-1 h-full w-full relative">
+      <Link to={`/single-blog/${blog?._id}`} className="flex-1 h-[180px] w-full relative">
         <img src={blog?.coverImage} className="w-full h-full object-cover" alt="" />
 
         {/* Article Badge */}
         <CategoryBadge category={blog?.category} align={"left"} />
       </Link>
       {/* Blog Content */}
-      <div className="flex flex-col flex-2 gap-3 items-center md:p-0 p-5">
+      <div className="flex flex-col gap-2 items-center flex-2 p-3">
         {/* Blog Title */}
         <div>
           <Link
             to={`/single-blog/${blog?._id}`}
-            className="hover:underline cursor-pointer transition font-medium md:text-xl xl:text-2xl lg:text-[15px] text-[15px] text-left mt-3"
+            className="hover:underline cursor-pointer transition font-medium text-lg"
           >
-            {blog?.title}
+            {<TruncateText text={blog?.title} />}
           </Link>
         </div>
         {/* Blog Description */}
         <div>
           <p className="text-sm text-left pr-3 md:text-[10px] xl:text-sm sm:text-[10px]">
-            {blog?.excerpt}
+            {<TruncateText text={blog?.excerpt} maxLength={110} />}
           </p>
         </div>
         {/* Blog Actions */}
-        <div className="flex flex-row  gap-3 self-start">
+        <div className="flex lg:flex-row sm:flex-wrap justify-center sm:flex-col gap-3 self-start mt-auto">
           {/* Wishlist Button */}
           <button
-            className="btn btn-primary hover:btn-outline"
+            className="btn btn-primary hover:btn-outline lg:btn-md sm:btn-xs"
             onClick={handleWishlist}
-            disabled={disableButton}
+            // disabled={buttonDisabled}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill={`${disableButton === true ? "#fff" : "none"}`}
+              // fill={`${buttonDisabled === true ? "#fff" : "none"}`}
               viewBox="0 0 24 24"
               strokeWidth="2.5"
               stroke="currentColor"
@@ -116,7 +118,10 @@ const SingleBlogCard = ({ blog }) => {
             Add to Wishlist
           </button>
           {/* Details Button */}
-          <Link to={`/single-blog/${blog?._id}`} className="btn btn-outline btn-primary">
+          <Link
+            to={`/single-blog/${blog?._id}`}
+            className="btn btn-outline btn-primary lg:btn-md sm:btn-xs"
+          >
             Read More
           </Link>
         </div>

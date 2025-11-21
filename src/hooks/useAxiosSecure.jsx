@@ -6,7 +6,7 @@ import useAuth from "./useAuth";
 
 // Axios Instance
 const axiosInstance = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}`,
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true, // Allows sending cookies
 });
 
@@ -22,20 +22,34 @@ const useAxiosSecure = () => {
         return response;
       },
       async (err) => {
-        // Check if the promise rejected because of the status code of 401 or 403
         if (err.status === 401 || err.status === 403) {
-          // Logout the current user
-          const response = await handleLogout();
-          console.log(response);
+          // Logout the user
+          handleLogout()
+            .then(() => {
+              console.log("User logged out successfully!");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          // Toast
+          toast.error("Forbidden access");
 
-          toast.error("Forbidden Access!");
+          // Clear token cookie
+          // await axiosInstance.post("/logout");
 
           // Navigate the user to the login page
           navigate("/login");
+          //  console axios error
+          console.log("Error caught on axios interceptor--->", err);
+
+          return;
         }
+
+        return Promise.reject(err);
       }
     );
   }, [handleLogout, navigate]);
+
   // Return axiosInstance
   return axiosInstance;
 };

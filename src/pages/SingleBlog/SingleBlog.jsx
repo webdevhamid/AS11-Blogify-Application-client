@@ -9,7 +9,7 @@ import NotFoundAlert from "../../components/NotFoundAlert/NotFoundAlert";
 
 const SingleBlog = () => {
   const { id } = useParams();
-  const shareURL = `https://www.aljazeera.com/news/2025/10/25/sudans-army-battles-rsf-advances-in-el-fasher-bara-as-civil-war-rages`;
+  const shareURL = `http://localhost:3000/single-blog/${id}`;
   const axiosSecure = useAxiosSecure();
 
   // fetching "specific blog data"
@@ -44,7 +44,7 @@ const SingleBlog = () => {
     enabled: !!blogData?.category,
   });
 
-  console.log(relatedBlogs);
+  relatedBlogs;
 
   if (isError || blogData?.success === false)
     return <NotFoundAlert alertText={blogData?.message || "This post no longer exists."} />;

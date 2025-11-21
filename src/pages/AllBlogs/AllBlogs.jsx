@@ -5,6 +5,7 @@ import SingleBlogCard from "../../components/SingleBlogCard/SingleBlogCard";
 import Skeleton from "react-loading-skeleton";
 import { useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import ArticleTemplate from "./../../components/ArticleTemplate/ArticleTemplate";
 
 const AllBlogs = () => {
   const [filterCategory, setFilterCategory] = useState("All");
@@ -80,7 +81,7 @@ const AllBlogs = () => {
           </form>
         </div>
       </div>
-      <div className="grid lg:grid-cols-2 grid-cols-1 gap-10">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mt-9">
         {isPending
           ? [...Array(6)].map((_, i) => <Skeleton key={i} height={248} />)
           : allBlogs?.map((blog) => <SingleBlogCard key={blog._id} blog={blog} />)}

@@ -12,21 +12,19 @@ import "react-photo-view/dist/react-photo-view.css";
 const BlogDetails = ({ isPending, blogData, shareURL }) => {
   const { user } = useAuth();
 
-  const isBlogAuthor = blogData?.author.email === user?.email;
-  console.log(isBlogAuthor);
-  console.log(blogData);
+  const isBlogAuthor = user?.email === blogData?.author.email;
 
   return (
     <div>
       <div className="flex items-center gap-2 justify-between">
         {/* Title */}
-        <h1 className="text-2xl md:text-3xl font-bold border-l-8 border-primary pl-4 w-full">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold border-l-8 border-primary pl-4 w-full">
           {isPending ? <Skeleton count={2} /> : blogData?.title}
         </h1>
 
         {/* Blog Edit Button */}
-        {isBlogAuthor && (
-          <div className="tooltip" data-tip="Edit blog">
+        {user?.email && isBlogAuthor && (
+          <div className={`tooltip`} data-tip="Edit blog">
             <Link className="btn btn-neutral" to={`/edit/${blogData?._id}`}>
               <FaEdit />
             </Link>
@@ -52,7 +50,11 @@ const BlogDetails = ({ isPending, blogData, shareURL }) => {
               {isPending ? (
                 <Skeleton borderRadius={100} height={30} width={30} />
               ) : (
-                <img src={blogData?.author?.avatar} alt="" className="rounded-full w-[30px]" />
+                <img
+                  src={blogData?.author?.avatar}
+                  alt=""
+                  className="rounded-full w-[30px] h-[30px] object-cover"
+                />
               )}
             </Link>
             <Link className="text-sm font-bold">
@@ -83,7 +85,7 @@ const BlogDetails = ({ isPending, blogData, shareURL }) => {
         </div>
       </div>
       {/* Blog Description */}
-      <p className="text-base-content font-normal text-lg/9 text-justify sm:text-left mb-20">
+      <p className="text-base-content font-normal text-sm/8 sm:text-lg/9 sm:text-left mb-20">
         {blogData?.description || <Skeleton count={10} />}
       </p>
       {/* Blog Category */}

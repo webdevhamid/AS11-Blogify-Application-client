@@ -3,6 +3,7 @@ import ArticleTemplate from "../ArticleTemplate/ArticleTemplate";
 import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import SingleBlogCard from "../SingleBlogCard/SingleBlogCard";
 
 const RecentPosts = () => {
   const axiosSecure = useAxiosSecure();
@@ -17,13 +18,11 @@ const RecentPosts = () => {
     queryFn: fetchRecentBlogs,
   });
 
-  console.log(recentBlogs);
-
   return (
     <div className="py-20">
       <IconTitle title={`Recent Posts`} />
-      <div className="grid h-[800px] sm:h-[650px]  grid-cols-2 md:grid-cols-3 gap-5 mt-5">
-        {isPending
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mt-5">
+        {/* {isPending
           ? [...Array(6)].map((_, i) => <Skeleton key={i} height={315} />)
           : recentBlogs?.map((blog) => (
               <ArticleTemplate
@@ -34,7 +33,10 @@ const RecentPosts = () => {
                 category={blog.category}
                 isPending={isPending}
               />
-            ))}
+            ))} */}
+        {isPending
+          ? [...Array(6)].map((_, i) => <Skeleton key={i} height={315} />)
+          : recentBlogs?.map((blog) => <SingleBlogCard key={blog?._id} blog={blog} />)}
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
-import Skeleton from "react-loading-skeleton";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { toast } from "react-hot-toast";
 
@@ -12,8 +11,7 @@ const Navbar = () => {
 
   const handleLogoutUser = async () => {
     await handleLogout();
-    const { data } = await axiosSecure.post(`/logout`);
-    console.log(data);
+    await axiosSecure.post(`/logout`);
     navigate("/");
     toast.success("Logged out successfully!");
   };
@@ -114,7 +112,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="bg-base-100 shadow-sm fixed w-full top-0 z-20">
+    <div className="bg-base-100 shadow-sm w-full fixed left-0 top-0 z-20">
       <div className="navbar container mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -143,7 +141,7 @@ const Navbar = () => {
           </div>
           <Link
             to={`/`}
-            className="font-BBH text-neutral dark:text-base-content font-bold text-3xl uppercase"
+            className="font-BBH text-neutral dark:text-base-content font-bold md:text-3xl sm:text-xl uppercase"
           >
             <span>News</span>
             <span className="text-primary">Waves</span>
@@ -188,8 +186,8 @@ const Navbar = () => {
             </div>
           ) : (
             // Login Button
-            <ul className="flex gap-2">
-              <li className="hover:text-primary transition">
+            <ul className="flex gap-1 sm:gap-2">
+              <li className="hover:text-primary transition text-sm sm:text-lg">
                 <NavLink
                   to={`/login`}
                   className={({ isActive }) => [isActive ? "text-primary transition" : ""]}
@@ -197,7 +195,7 @@ const Navbar = () => {
                   Login
                 </NavLink>
               </li>
-              <li className="hover:text-primary transition">
+              <li className="hover:text-primary transition text-sm sm:text-lg">
                 <NavLink
                   to={`/register`}
                   className={({ isActive }) => [isActive ? "text-primary transition" : ""]}
@@ -208,8 +206,12 @@ const Navbar = () => {
             </ul>
           )}
           {/* Toggle Dark Mode */}
-          <div className="ml-3">
-            <input type="checkbox" value="dark" className="toggle theme-controller" />
+          <div className="ml-1 sm:ml-3">
+            <input
+              type="checkbox"
+              value="dark"
+              className="toggle toggle-sm sm:toggle-md theme-controller"
+            />
           </div>
         </div>
       </div>

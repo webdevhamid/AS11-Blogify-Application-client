@@ -10,9 +10,9 @@ import PrivateRoutes from "./PrivateRoutes";
 import SingleBlog from "../pages/SingleBlog/SingleBlog";
 import MyBlogs from "../pages/MyBlogs/MyBlogs";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
-import Wishlist from "../pages/Wishlist/Wishlist";
 import EditBlog from "../pages/EditBlog/EditBlog";
 import axios from "axios";
+import Wishlist from "../pages/Wishlist/Wishlist";
 
 const router = createBrowserRouter([
   {

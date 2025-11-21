@@ -59,19 +59,34 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       setLoading(false);
 
+      console.log(currentUser);
+
+      // const firebaseToken = await auth.currentUser.getIdToken();
+      // console.log(firebaseToken);
+
+      // console.log("firebase token", currentUser.accessToken);
+
       // Check if the current user email exist
-      if (currentUser?.email) {
-        const { data } = await axios.post(
-          `${import.meta.env.VITE_API_URL}/jwt`,
-          {
-            email: currentUser?.email,
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        console.log(data);
-      }
+      // if (currentUser && currentUser?.email) {
+      //   await axios.post(
+      //     `${import.meta.env.VITE_API_URL}/jwt`,
+      //     {
+      //       email: currentUser?.email,
+      //     },
+      //     {
+      //       withCredentials: true,
+      //     }
+      //   );
+      // } else {
+      //   // Clear the cookie
+      //   await axios.post(
+      //     `${import.meta.env.VITE_API_URL}/logout`,
+      //     {},
+      //     {
+      //       withCredentials: true,
+      //     }
+      //   );
+      // }
     });
 
     // Cleanup function to stop listening when the component unmount
@@ -80,8 +95,6 @@ const AuthProvider = ({ children }) => {
       return unsubscribe();
     };
   }, []);
-
-  console.log(user);
 
   const authInfo = {
     user,

@@ -14,7 +14,7 @@ const Home = () => {
     return data;
   };
 
-  // Fetching blogs data using tanStack query
+  // Fetching featured blogs data using tanStack query
   const { isPending, data: featuredBlogs } = useQuery({
     queryKey: ["featured-banners"],
     queryFn: fetchBannerBlogs,
@@ -23,6 +23,7 @@ const Home = () => {
   //   Get Main Blogs
   const leftFeaturedBlog = featuredBlogs?.[0];
   const rightFeaturedBlogs = featuredBlogs?.slice(1, 5);
+
   return (
     <div className="sm:mt-5">
       {/* Marquee (Breaking News) */}

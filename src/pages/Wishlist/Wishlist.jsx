@@ -6,11 +6,13 @@ import useAxiosSecure from "./../../hooks/useAxiosSecure";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
 
 const Wishlist = () => {
   const axiosSecure = useAxiosSecure();
   const [wishlists, isPending] = useWishlists();
   const queryClient = useQueryClient();
+  const { user } = useAuth();
 
   // wishlist delete handler
   const handleDelete = useMutation({
@@ -18,10 +20,9 @@ const Wishlist = () => {
       axiosSecure.delete("/remove-wishlist", {
         data: { id },
       }),
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       toast.success("Removed from wishlist");
-      queryClient.invalidateQueries(["wishlists"]);
+      queryClient.invalidateQueries({ queryKey: ["wishlists"] });
     },
   });
 
