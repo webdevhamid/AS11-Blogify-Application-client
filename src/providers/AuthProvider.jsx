@@ -11,7 +11,6 @@ import {
 import { app } from "../config/firebase-config";
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
@@ -41,6 +40,7 @@ const AuthProvider = ({ children }) => {
 
   //   Logout function
   const handleLogout = () => {
+    setLoading(true);
     return signOut(auth);
   };
 
@@ -58,8 +58,6 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       setLoading(false);
-
-      console.log(currentUser);
 
       // const firebaseToken = await auth.currentUser.getIdToken();
       // console.log(firebaseToken);

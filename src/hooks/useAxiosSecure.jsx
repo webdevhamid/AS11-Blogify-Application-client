@@ -12,10 +12,26 @@ const axiosInstance = axios.create({
 
 const useAxiosSecure = () => {
   const navigate = useNavigate();
-  const { handleLogout } = useAuth();
+  const { handleLogout, user } = useAuth();
 
   // Side effects of the interceptor
   useEffect(() => {
+    // Axios request interceptor
+    axiosInstance.interceptors.request.use(
+      (config) => {
+        const token = user?.accessToken;
+
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        return config;
+      },
+      (err) => {
+        return Promise.reject(err);
+      }
+    );
+
     // Axios response interceptors
     axiosInstance.interceptors.response.use(
       (response) => {
@@ -48,7 +64,7 @@ const useAxiosSecure = () => {
         return Promise.reject(err);
       }
     );
-  }, [handleLogout, navigate]);
+  }, [handleLogout, navigate, user?.accessToken]);
 
   // Return axiosInstance
   return axiosInstance;

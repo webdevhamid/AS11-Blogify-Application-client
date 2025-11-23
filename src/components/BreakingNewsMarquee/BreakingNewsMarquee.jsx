@@ -2,11 +2,13 @@ import Marquee from "react-fast-marquee";
 import { NavLink } from "react-router";
 import { GiElectric } from "react-icons/gi";
 import { useQuery } from "@tanstack/react-query";
-import Skeleton from "react-loading-skeleton";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useTheme from "../../hooks/useTheme";
 
 const BreakingNewsMarquee = () => {
   const axiosSecure = useAxiosSecure();
+  const { skeletonTheme } = useTheme();
 
   const fetchBreakingNews = async () => {
     const { data } = await axiosSecure.get(`/blogs?breakingNews=true`);
@@ -24,18 +26,23 @@ const BreakingNewsMarquee = () => {
         <GiElectric className="text-xl" /> Breaking News
       </button>
       <Marquee pauseOnHover={true}>
-        {isPending ? (
-          <Skeleton count={1} width={700} />
-        ) : (
-          breakingNews?.map((news) => (
-            <NavLink
-              to={`/single-blog/${news._id}`}
-              className={`hover:text-primary transform font-bold mr-5`}
-            >
-              {news.title}
-            </NavLink>
-          ))
-        )}
+        <SkeletonTheme
+          baseColor={skeletonTheme.baseColor}
+          highlightColor={skeletonTheme.highlightColor}
+        >
+          {isPending ? (
+            <Skeleton count={1} width={700} />
+          ) : (
+            breakingNews?.map((news) => (
+              <NavLink
+                to={`/single-blog/${news._id}`}
+                className={`hover:text-primary transform font-bold mr-5`}
+              >
+                {news.title}
+              </NavLink>
+            ))
+          )}
+        </SkeletonTheme>
       </Marquee>
     </div>
   );

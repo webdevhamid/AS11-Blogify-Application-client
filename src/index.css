@@ -23,8 +23,3 @@
   name: "dark";
   --color-primary: oklch(58.6% 0.253 17.585);
 }
-
-/* DaisyUI directive for custom button */
-/* @utility btn {
-@apply rounded-full;
-} */

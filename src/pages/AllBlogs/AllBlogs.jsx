@@ -2,15 +2,18 @@ import "./AllBlogs.css";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { useQuery } from "@tanstack/react-query";
 import SingleBlogCard from "../../components/SingleBlogCard/SingleBlogCard";
-import Skeleton from "react-loading-skeleton";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import ArticleTemplate from "./../../components/ArticleTemplate/ArticleTemplate";
+import useTheme from "../../hooks/useTheme";
 
 const AllBlogs = () => {
   const [filterCategory, setFilterCategory] = useState("All");
   const [searchValue, setSearchValue] = useState("");
   const axiosSecure = useAxiosSecure();
+  const { skeletonTheme, isDarkMode } = useTheme();
+  console.log(isDarkMode);
 
   // function for fetching all blogs
   const fetchAllBlogs = async () => {
@@ -82,9 +85,14 @@ const AllBlogs = () => {
         </div>
       </div>
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mt-9">
-        {isPending
-          ? [...Array(6)].map((_, i) => <Skeleton key={i} height={248} />)
-          : allBlogs?.map((blog) => <SingleBlogCard key={blog._id} blog={blog} />)}
+        <SkeletonTheme
+          baseColor={skeletonTheme.baseColor}
+          highlightColor={skeletonTheme.highlightColor}
+        >
+          {isPending
+            ? [...Array(8)].map((_, i) => <Skeleton key={i} height={248} />)
+            : allBlogs?.map((blog) => <SingleBlogCard key={blog._id} blog={blog} />)}
+        </SkeletonTheme>
       </div>
     </div>
   );

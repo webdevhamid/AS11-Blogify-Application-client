@@ -13,17 +13,17 @@ const ArticleTemplate = ({ title, imageURL, id, category, featuredBlog }) => {
   const navigate = useNavigate();
 
   // Check if a specific post is wishListed
-  // const { data: wishlistCheck, isLoading } = useQuery({
-  //   queryKey: ["wishlist-check", id, user?.email],
-  //   queryFn: async () => {
-  //     const { data } = await axiosSecure.get(`/wishlist/${id}`);
-  //     return data;
-  //   },
-  //   onSuccess: (data) => {
-  //     console.log(data.exists);
-  //   },
-  //   enabled: !authLoading && !!user?.email,
-  // });
+  const { data: wishlistCheck, isLoading } = useQuery({
+    queryKey: ["wishlist-check", id, user?.email],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/wishlist/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log(data.exists);
+    },
+    enabled: !authLoading && !!user?.email,
+  });
 
   // Mutation to add wishlist
   const addToWishlist = useMutation({
@@ -46,7 +46,7 @@ const ArticleTemplate = ({ title, imageURL, id, category, featuredBlog }) => {
   });
 
   // Disable button state
-  // const buttonDisabled = isLoading || wishlistCheck?.exists || authLoading;
+  const buttonDisabled = wishlistCheck?.exists;
 
   // wishlist click handler
   const handleWishlist = () => {
@@ -93,11 +93,11 @@ const ArticleTemplate = ({ title, imageURL, id, category, featuredBlog }) => {
           className={`btn btn-primary hover:btn-outline absolute right-0 top-12 transform wishlist-button transition duration-200`}
           title="Add to Wishlist"
           onClick={handleWishlist}
-          // disabled={buttonDisabled}
+          disabled={buttonDisabled}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            // fill={`${buttonDisabled === true ? "#fff" : "none"}`}
+            fill={`${buttonDisabled === true ? "#fff" : "none"}`}
             viewBox="0 0 24 24"
             strokeWidth="2.5"
             stroke="currentColor"

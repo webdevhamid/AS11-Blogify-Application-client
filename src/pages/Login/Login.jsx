@@ -1,10 +1,10 @@
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
-import toast from "react-hot-toast";
+import toast, { LoaderIcon } from "react-hot-toast";
 import axios from "axios";
 
 const Login = () => {
-  const { handleSignIn, setUser, setLoading, handleGoogleSignIn, user } = useAuth();
+  const { handleSignIn, setUser, setLoading, handleGoogleSignIn, user, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -62,8 +62,8 @@ const Login = () => {
                 <a className="link link-hover">Forgot password?</a>
               </div>
               {/* Login Button */}
-              <button className="btn btn-neutral mt-4" type="submit">
-                Login
+              <button className={`btn btn-neutral mt-4`} disabled={loading} type="submit">
+                Login {loading && <LoaderIcon />}
               </button>
               {/* Registration link */}
 

@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SocialShare from "../SocialShare/SocialShare";
-import Skeleton from "react-loading-skeleton";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { format } from "date-fns";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { FaEdit } from "react-icons/fa";
 import { IoShareSocial } from "react-icons/io5";
 import useAuth from "../../hooks/useAuth";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
+import ScrollToTop from "../ScrollToTop/ScrollToTop";
+import useTheme from "../../hooks/useTheme";
 
 const BlogDetails = ({ isPending, blogData, shareURL }) => {
   const { user } = useAuth();
+  const { pathname } = useLocation();
+  const { skeletonTheme } = useTheme();
 
   const isBlogAuthor = user?.email === blogData?.author.email;
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
-    <div>
+    <SkeletonTheme
+      baseColor={skeletonTheme.baseColor}
+      highlightColor={skeletonTheme.highlightColor}
+    >
       <div className="flex items-center gap-2 justify-between">
         {/* Title */}
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold border-l-8 border-primary pl-4 w-full">
@@ -106,7 +117,7 @@ const BlogDetails = ({ isPending, blogData, shareURL }) => {
           ))}
         </div>
       </div>
-    </div>
+    </SkeletonTheme>
   );
 };
 

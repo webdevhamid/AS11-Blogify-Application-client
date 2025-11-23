@@ -3,11 +3,17 @@ import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { toast } from "react-hot-toast";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const { user, handleLogout } = useAuth();
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
+  const [isDark, setIsDark] = useState(JSON.parse(localStorage.getItem("isDark")));
+
+  useEffect(() => {
+    localStorage.setItem("isDark", JSON.stringify(isDark));
+  }, [isDark]);
 
   const handleLogoutUser = async () => {
     await handleLogout();
@@ -212,6 +218,8 @@ const Navbar = () => {
               type="checkbox"
               value="dark"
               className="toggle toggle-sm sm:toggle-md theme-controller"
+              onChange={() => setIsDark(!isDark)}
+              checked={isDark}
             />
           </div>
         </div>

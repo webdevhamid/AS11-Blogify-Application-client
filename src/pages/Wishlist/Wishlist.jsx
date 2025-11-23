@@ -6,13 +6,14 @@ import useAxiosSecure from "./../../hooks/useAxiosSecure";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
-import useAuth from "../../hooks/useAuth";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import useTheme from "../../hooks/useTheme";
 
 const Wishlist = () => {
   const axiosSecure = useAxiosSecure();
   const [wishlists, isPending] = useWishlists();
   const queryClient = useQueryClient();
-  const { user } = useAuth();
+  const { skeletonTheme } = useTheme();
 
   // wishlist delete handler
   const handleDelete = useMutation({
@@ -27,71 +28,76 @@ const Wishlist = () => {
   });
 
   return (
-    <div className="py-10">
-      {/* Page Title */}
-      <PageTitle title={"My Wishlist"} />
-      <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+    <SkeletonTheme
+      baseColor={skeletonTheme.baseColor}
+      highlightColor={skeletonTheme.highlightColor}
+    >
+      <div className="py-10">
+        {/* Page Title */}
+        <PageTitle title={"My Wishlist"} />
         {isPending ? (
-          <Spinner />
+          <Skeleton className="h-[340px]" />
         ) : (
-          <table className="table table-sm md:table-md">
-            {/* head */}
-            <thead>
-              <tr>
-                <th></th>
-                <th>Post Title</th>
-                <th>Category</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Row */}
-              {wishlists?.map((post, i) => (
-                <tr key={post._id}>
-                  <th>{i + 1}</th>
-                  <td>{post?.title}</td>
-
-                  <td>{post?.category}</td>
-                  <td>
-                    <div className="flex-col flex md:flex-row gap-2">
-                      <Link className="btn btn-xs btn-primary" to={`/single-blog/${post.postId}`}>
-                        Read
-                      </Link>
-                      <button
-                        className="btn btn-xs btn-primary"
-                        onClick={() =>
-                          Swal.fire({
-                            title: "Are you sure?",
-                            text: "You won't be able to revert this!",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#3085d6",
-                            cancelButtonColor: "#d33",
-                            confirmButtonText: "Yes, delete it!",
-                          }).then((result) => {
-                            if (result.isConfirmed) {
-                              handleDelete.mutate(post.postId);
-                              Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
-                                icon: "success",
-                              });
-                            }
-                          })
-                        }
-                      >
-                        Remove Wishlist
-                      </button>
-                    </div>
-                  </td>
+          <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+            <table className="table table-sm md:table-md">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Post Title</th>
+                  <th>Category</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {/* Row */}
+                {wishlists?.map((post, i) => (
+                  <tr key={post._id}>
+                    <th>{i + 1}</th>
+                    <td>{post?.title}</td>
+
+                    <td>{post?.category}</td>
+                    <td>
+                      <div className="flex-col flex md:flex-row gap-2">
+                        <Link className="btn btn-xs btn-primary" to={`/single-blog/${post.postId}`}>
+                          Read
+                        </Link>
+                        <button
+                          className="btn btn-xs btn-primary"
+                          onClick={() =>
+                            Swal.fire({
+                              title: "Are you sure?",
+                              text: "You won't be able to revert this!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes, delete it!",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                handleDelete.mutate(post.postId);
+                                Swal.fire({
+                                  title: "Deleted!",
+                                  text: "Your file has been deleted.",
+                                  icon: "success",
+                                });
+                              }
+                            })
+                          }
+                        >
+                          Remove Wishlist
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* {wishlists.length && <NotFoundAlert alertText={"No wishlist found"} />} */}
+          </div>
         )}
-        {/* {wishlists.length && <NotFoundAlert alertText={"No wishlist found"} />} */}
       </div>
-    </div>
+    </SkeletonTheme>
   );
 };
 

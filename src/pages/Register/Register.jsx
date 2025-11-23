@@ -1,9 +1,9 @@
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import useAuth from "./../../hooks/useAuth";
-import toast from "react-hot-toast";
+import toast, { LoaderIcon } from "react-hot-toast";
 
 const Register = () => {
-  const { handleSignUp, setUser, updateUserProfile, setLoading, user } = useAuth();
+  const { handleSignUp, setUser, updateUserProfile, setLoading, user, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -89,8 +89,8 @@ const Register = () => {
                 required
               />
               {/* Register button */}
-              <button className="btn btn-neutral mt-4" type="submit">
-                Register
+              <button className="btn btn-neutral mt-4" type="submit" disabled={loading}>
+                Register {loading && <LoaderIcon />}
               </button>
               {/* Registration link */}
               <div className="flex gap-1.5 mt-3">

@@ -9,7 +9,7 @@ import NotFoundAlert from "../../components/NotFoundAlert/NotFoundAlert";
 
 const SingleBlog = () => {
   const { id } = useParams();
-  const shareURL = `http://localhost:3000/single-blog/${id}`;
+  const shareURL = `https://blogify-app-a2276.web.app/single-blog/${id}`;
   const axiosSecure = useAxiosSecure();
 
   // fetching "specific blog data"
@@ -43,8 +43,6 @@ const SingleBlog = () => {
     // It will not execute until it gets the blogData?.category
     enabled: !!blogData?.category,
   });
-
-  relatedBlogs;
 
   if (isError || blogData?.success === false)
     return <NotFoundAlert alertText={blogData?.message || "This post no longer exists."} />;

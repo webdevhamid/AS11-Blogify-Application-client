@@ -28,18 +28,18 @@ const Home = () => {
     <div className="sm:mt-5">
       {/* Marquee (Breaking News) */}
       <BreakingNewsMarquee />
+
       {/* Hero section */}
       <Hero
         leftFeaturedBlog={leftFeaturedBlog}
         rightFeaturedBlogs={rightFeaturedBlogs}
         isPending={isPending}
       />
+
       {/* Recent Posts */}
       <RecentPosts />
       {/* News letter Section */}
-      <div>
-        <NewsLetter />
-      </div>
+      <NewsLetter />
     </div>
   );
 };

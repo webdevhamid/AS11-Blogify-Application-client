@@ -10,11 +10,7 @@ const useWishlists = () => {
   const { data, isPending } = useQuery({
     queryKey: ["wishlists", user?.email],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/wishlists/${user?.email}`, {
-        headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+      const { data } = await axiosSecure.get(`/wishlists/${user?.email}`);
       return data;
     },
 
