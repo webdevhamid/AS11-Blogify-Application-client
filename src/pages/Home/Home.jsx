@@ -5,6 +5,8 @@ import NewsLetter from "../../components/NewsLetter/NewsLetter";
 import Hero from "../../components/Hero/Hero";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import PoliticsSection from "../../components/PoliticsSection/PoliticsSection";
+import BusinessSection from "../../components/BusinessSection/BusinessSection";
 
 const Home = () => {
   const axiosSecure = useAxiosSecure();
@@ -38,6 +40,10 @@ const Home = () => {
 
       {/* Recent Posts */}
       <RecentPosts />
+      {/* Politics */}
+      <PoliticsSection />
+      {/* Business Blogs */}
+      <BusinessSection />
       {/* News letter Section */}
       <NewsLetter />
     </div>

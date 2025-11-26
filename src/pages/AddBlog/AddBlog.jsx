@@ -169,6 +169,7 @@ const AddBlog = () => {
                   Choose a category
                 </option>
                 <option>Technology</option>
+                <option>Politics</option>
                 <option>Travel</option>
                 <option>Health & Wellness</option>
                 <option>Business</option>

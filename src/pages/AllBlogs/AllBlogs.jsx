@@ -3,7 +3,7 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import { useQuery } from "@tanstack/react-query";
 import SingleBlogCard from "../../components/SingleBlogCard/SingleBlogCard";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useTheme from "../../hooks/useTheme";
 
@@ -35,9 +35,6 @@ const AllBlogs = () => {
   //       setTotalBlogs(result);
   //     });
   // }, [itemsPerPage]);
-
-  console.log(itemsPerPage, totalBlogs, totalPages);
-  console.log(currentPage);
 
   // how to implement pagination logic
   /*
@@ -93,6 +90,7 @@ const AllBlogs = () => {
             </option>
             <option>All</option>
             <option>Technology</option>
+            <option>Politics</option>
             <option>Travel</option>
             <option>Health & Wellness</option>
             <option>Business</option>
@@ -125,7 +123,7 @@ const AllBlogs = () => {
           </form>
         </div>
       </div>
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mt-9">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mt-9 min-h-[600px]">
         <SkeletonTheme
           baseColor={skeletonTheme.baseColor}
           highlightColor={skeletonTheme.highlightColor}
