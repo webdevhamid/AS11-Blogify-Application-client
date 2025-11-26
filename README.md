@@ -33,8 +33,6 @@ NewsWaves is a professional blogging website featuring curated news, dynamic art
 ![Wishlist Page](path-to-image)
 ``` -->
 
-Add as many images as you want to highlight UI/UX, responsiveness, and key features.
-
 ## 🌟 Core Features
 
 ### **🔐 Authentication & User Management**
@@ -135,7 +133,7 @@ NewsWaves provides a consistent and polished experience across mobile, tablet, a
 
 ## ✨ Author
 
-Developed by **Guddu**, Full‑Stack Web Developer passionate about modern web applications, clean architecture, and user‑focused design.
+Developed by **Abdul Hamid**, Full‑Stack Web Developer passionate about modern web applications, clean architecture, and user‑focused design.
 
 ---
 
@@ -144,5 +142,3 @@ Developed by **Guddu**, Full‑Stack Web Developer passionate about modern web a
 This project is an example of full‑stack proficiency, demonstrating expertise in frontend engineering, backend development, API security, and modern tooling—ideal for showcasing technical ability to recruiters, collaborators, and the developer community.
 
 ---
-
-Feel free to explore, review, and extend NewsWaves!
