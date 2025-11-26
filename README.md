@@ -27,7 +27,7 @@ NewsWaves is a professional blogging website featuring curated news, dynamic art
 Showcase your project visually by adding high-quality screenshots here:
 
 ```
-![Homepage](path-to-image)
+![Homepage](https://i.ibb.co.com/23h5WC15/screencapture-localhost-5173-2025-11-26-23-47-20.jpg)
 ![All Blogs Page](path-to-image)
 ![Single Blog Page](path-to-image)
 ![Create Blog Page](path-to-image)
