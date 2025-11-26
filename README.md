@@ -24,16 +24,14 @@ NewsWaves is a professional blogging website featuring curated news, dynamic art
 
 ## 🖼️ Project Screenshots
 
-Showcase your project visually by adding high-quality screenshots here:
-
 ![Homepage](./src/assets/home-page-thumbnail.png)
 
-```
+<!-- ```
 ![All Blogs Page](path-to-image)
 ![Single Blog Page](path-to-image)
 ![Create Blog Page](path-to-image)
 ![Wishlist Page](path-to-image)
-```
+``` -->
 
 Add as many images as you want to highlight UI/UX, responsiveness, and key features.
 
