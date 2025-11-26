@@ -49,7 +49,7 @@ const ArticleTemplate = ({ title, imageURL, id, category, featuredBlog }) => {
   // wishlist click handler
   const handleWishlist = () => {
     if (!user) {
-      return navigate("/login");
+      return navigate("/auth/login");
     }
 
     // setDisableButton(true);

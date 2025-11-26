@@ -22,7 +22,7 @@ const BusinessSection = () => {
 
   return (
     <div className="pb-20">
-      <IconTitle title={`Business Updates`} />
+      <IconTitle title={`Business Insights`} />
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mt-5">
         <SkeletonTheme
           baseColor={skeletonTheme.baseColor}

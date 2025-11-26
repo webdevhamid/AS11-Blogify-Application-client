@@ -95,6 +95,13 @@ const SingleBlogCard = ({ blog }) => {
         </div>
         {/* Blog Actions */}
         <div className="flex lg:flex-row sm:flex-wrap justify-center sm:flex-col gap-3 self-start mt-auto">
+          {/* Details Button */}
+          <Link
+            to={`/single-blog/${blog?._id}`}
+            className="btn btn-outline btn-primary lg:btn-sm sm:btn-xs"
+          >
+            Read More
+          </Link>
           {/* Wishlist Button */}
           <button
             className="btn btn-primary hover:btn-outline lg:btn-sm sm:btn-xs"
@@ -117,13 +124,6 @@ const SingleBlogCard = ({ blog }) => {
             </svg>
             Add to Wishlist {isPending && <LoaderIcon />}
           </button>
-          {/* Details Button */}
-          <Link
-            to={`/single-blog/${blog?._id}`}
-            className="btn btn-outline btn-primary lg:btn-sm sm:btn-xs"
-          >
-            Read More
-          </Link>
         </div>
       </div>
     </div>

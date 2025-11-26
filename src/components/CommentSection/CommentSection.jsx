@@ -72,7 +72,7 @@ const CommentSection = ({ blogData, id }) => {
           <div role="alert" className="alert alert-warning alert-soft">
             <span className="text-base-content/60">
               Login to comment!{" "}
-              <Link to="/login" className="text-primary" state={location?.pathname}>
+              <Link to="/auth/login" className="text-primary" state={location?.pathname}>
                 Login
               </Link>
             </span>

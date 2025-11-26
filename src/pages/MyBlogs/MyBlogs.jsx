@@ -11,7 +11,7 @@ const MyBlogs = () => {
   const queryClient = useQueryClient();
 
   const { user } = useAuth();
-  const { data: myBlogs } = useQuery({
+  const { data: myBlogs, isPending } = useQuery({
     queryKey: ["my-blogs"],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/my-blogs/${user?.email}`);
@@ -29,7 +29,10 @@ const MyBlogs = () => {
     },
   });
 
-  myBlogs;
+  if (isPending) {
+    return "Loading...";
+  }
+
   return (
     <div className="py-10">
       <PageTitle title={"My Blogs"} />

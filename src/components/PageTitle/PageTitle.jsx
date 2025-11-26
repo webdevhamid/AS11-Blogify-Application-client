@@ -4,7 +4,7 @@ const PageTitle = ({ title }) => {
     <div className="flex items-center mb-2">
       <Link
         to={-1}
-        className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-bold text-base-100 shadow-xs  focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-bold text-base-100 shadow-xs  focus-visible:outline-2 focus-visible:outline-offset-2 md:block hidden"
       >
         &#8592;
       </Link>

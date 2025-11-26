@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import "./Footer.css";
 const Footer = () => {
   return (
@@ -5,10 +6,21 @@ const Footer = () => {
       <div className="footer container mx-auto sm:footer-horizontal text-base-content p-10 py-20">
         <nav>
           <h6 className="footer-title">Services</h6>
-          <a className="link link-hover">Branding</a>
-          <a className="link link-hover">Design</a>
-          <a className="link link-hover">Marketing</a>
-          <a className="link link-hover">Advertisement</a>
+          <Link to="/add-blog" className="link link-hover">
+            Add Blog
+          </Link>
+          <Link to="/all-blogs" className="link link-hover">
+            All Blogs
+          </Link>
+          <Link to="/featured-blogs" className="link link-hover">
+            Featured Blogs
+          </Link>
+          <Link to="/wishlist" className="link link-hover">
+            Wishlists
+          </Link>
+          <Link to="/my-blogs" className="link link-hover">
+            My Blogs
+          </Link>
         </nav>
         <nav>
           <h6 className="footer-title">Company</h6>
