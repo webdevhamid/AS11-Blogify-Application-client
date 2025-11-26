@@ -13,15 +13,13 @@ const ArticleTemplate = ({ title, imageURL, id, category, featuredBlog }) => {
   const navigate = useNavigate();
 
   // Check if a specific post is wishListed
-  const { data: wishlistCheck, isLoading } = useQuery({
+  const { data: wishlistCheck } = useQuery({
     queryKey: ["wishlist-check", id, user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/wishlist/${id}`);
       return data;
     },
-    onSuccess: (data) => {
-      console.log(data.exists);
-    },
+
     enabled: !authLoading && !!user?.email,
   });
 
@@ -33,7 +31,7 @@ const ArticleTemplate = ({ title, imageURL, id, category, featuredBlog }) => {
     onSuccess: (data) => {
       toast.success("Added to wishlist");
       // setDisableButton(true);
-      console.log(data);
+      // console.log(data);
 
       queryClient.invalidateQueries({
         queryKey: ["wishlist-check", id, user?.email],

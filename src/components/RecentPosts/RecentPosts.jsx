@@ -11,7 +11,7 @@ const RecentPosts = () => {
   const { skeletonTheme } = useTheme();
 
   const fetchRecentBlogs = async () => {
-    const { data } = await axiosSecure.get(`/blogs?recentPosts=true&limitQuery=true`);
+    const { data } = await axiosSecure.get(`/recent-posts?limit=6`);
     return data;
   };
 

@@ -1,23 +1,21 @@
 import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { toast } from "react-hot-toast";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import useTheme from "../../hooks/useTheme";
 
 const Navbar = () => {
   const { user, handleLogout } = useAuth();
   const navigate = useNavigate();
-  const axiosSecure = useAxiosSecure();
-  const [isDark, setIsDark] = useState(JSON.parse(localStorage.getItem("isDark")));
+  const { setIsDarkMode, isDarkMode } = useTheme();
 
   useEffect(() => {
-    localStorage.setItem("isDark", JSON.stringify(isDark));
-  }, [isDark]);
+    localStorage.setItem("isDark", JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
 
   const handleLogoutUser = async () => {
     await handleLogout();
-    await axiosSecure.post(`/logout`);
     navigate("/");
     toast.success("Logged out successfully!");
   };
@@ -216,10 +214,10 @@ const Navbar = () => {
           <div className="ml-1 sm:ml-3">
             <input
               type="checkbox"
-              value="dark"
+              value="black"
               className="toggle toggle-sm sm:toggle-md theme-controller"
-              onChange={() => setIsDark(!isDark)}
-              checked={isDark}
+              onChange={() => setIsDarkMode(!isDarkMode)}
+              checked={isDarkMode}
             />
           </div>
         </div>

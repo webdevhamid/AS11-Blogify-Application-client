@@ -4,3 +4,7 @@
 .blog-shadow-dark:hover {
   box-shadow: 0.25rem 0.25rem 0rem #ffffff;
 }
+.btn-active {
+  background-color: #ec003f;
+  color: white;
+}

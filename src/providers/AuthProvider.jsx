@@ -58,6 +58,7 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       setLoading(false);
+      console.log(currentUser);
 
       // const firebaseToken = await auth.currentUser.getIdToken();
       // console.log(firebaseToken);

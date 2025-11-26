@@ -1,7 +1,6 @@
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast, { LoaderIcon } from "react-hot-toast";
-import axios from "axios";
 
 const Login = () => {
   const { handleSignIn, setUser, setLoading, handleGoogleSignIn, user, loading } = useAuth();
@@ -34,11 +33,6 @@ const Login = () => {
     const { user } = await handleGoogleSignIn();
     setUser(user);
     setLoading(false);
-    await axios.post(
-      `${import.meta.env.VITE_API_URL}/jwt`,
-      { email: user?.email },
-      { withCredentials: true }
-    );
     navigate(location?.state ? location?.state : "/");
   };
 

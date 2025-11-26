@@ -20,7 +20,7 @@ const SingleBlogCard = ({ blog }) => {
       return data;
     },
     onSuccess: (data) => {
-      console.log(data.exists);
+      // console.log(data.exists);
     },
     enabled: !!user?.email,
   });
@@ -33,7 +33,7 @@ const SingleBlogCard = ({ blog }) => {
     onSuccess: (data) => {
       toast.success("Added to wishlist");
       // setDisableButton(true);
-      console.log(data);
+      // console.log(data);
 
       queryClient.invalidateQueries({
         queryKey: ["wishlist-check", blog?._id, user?.email],

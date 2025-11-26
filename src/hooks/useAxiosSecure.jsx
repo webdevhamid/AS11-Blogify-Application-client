@@ -42,7 +42,7 @@ const useAxiosSecure = () => {
           // Logout the user
           handleLogout()
             .then(() => {
-              console.log("User logged out successfully!");
+              // console.log("User logged out successfully!");
             })
             .catch((err) => {
               console.log(err);
@@ -54,7 +54,7 @@ const useAxiosSecure = () => {
           // await axiosInstance.post("/logout");
 
           // Navigate the user to the login page
-          navigate("/login");
+          navigate("/auth/login");
           //  console axios error
           console.log("Error caught on axios interceptor--->", err);
 

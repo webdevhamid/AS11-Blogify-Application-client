@@ -15,7 +15,7 @@ const Main = () => {
   return (
     <>
       {/* Scroll To Top */}
-      {/* <ScrollToTop /> */}
+      <ScrollToTop />
       {/* Navbar */}
       <Navbar />
       {/* Outlet */}

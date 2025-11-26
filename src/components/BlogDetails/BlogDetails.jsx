@@ -1,26 +1,19 @@
-import React, { useEffect } from "react";
 import SocialShare from "../SocialShare/SocialShare";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { format } from "date-fns";
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 import { FaEdit } from "react-icons/fa";
 import { IoShareSocial } from "react-icons/io5";
 import useAuth from "../../hooks/useAuth";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
-import ScrollToTop from "../ScrollToTop/ScrollToTop";
 import useTheme from "../../hooks/useTheme";
 
 const BlogDetails = ({ isPending, blogData, shareURL }) => {
   const { user } = useAuth();
-  const { pathname } = useLocation();
   const { skeletonTheme } = useTheme();
 
   const isBlogAuthor = user?.email === blogData?.author.email;
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
 
   return (
     <SkeletonTheme
@@ -96,7 +89,7 @@ const BlogDetails = ({ isPending, blogData, shareURL }) => {
         </div>
       </div>
       {/* Blog Description */}
-      <p className="text-base-content font-normal text-sm/8 sm:text-lg/9 sm:text-left mb-20">
+      <p className="text-base-content/70 font-normal text-sm/8 sm:text-lg/9 sm:text-left mb-20">
         {blogData?.description || <Skeleton count={10} />}
       </p>
       {/* Blog Category */}

@@ -3,36 +3,77 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import { useQuery } from "@tanstack/react-query";
 import SingleBlogCard from "../../components/SingleBlogCard/SingleBlogCard";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import ArticleTemplate from "./../../components/ArticleTemplate/ArticleTemplate";
 import useTheme from "../../hooks/useTheme";
 
 const AllBlogs = () => {
   const [filterCategory, setFilterCategory] = useState("All");
   const [searchValue, setSearchValue] = useState("");
   const axiosSecure = useAxiosSecure();
-  const { skeletonTheme, isDarkMode } = useTheme();
-  console.log(isDarkMode);
+  const { skeletonTheme } = useTheme();
+
+  const { data: totalBlogs = 0 } = useQuery({
+    queryKey: ["total-blogs"],
+    queryFn: async () => {
+      const result = await axiosSecure.get(`/total-blogs`);
+      return result.data;
+    },
+  });
+
+  // Get total blogs/documents
+  // const [totalBlogs, setTotalBlogs] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const totalPages = Math.ceil(totalBlogs / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(0);
+  const pages = [...Array(totalPages).keys()];
+
+  // useEffect(() => {
+  //   fetch(`${import.meta.env.VITE_API_URL}/total-blogs`)
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       setTotalBlogs(result);
+  //     });
+  // }, [itemsPerPage]);
+
+  console.log(itemsPerPage, totalBlogs, totalPages);
+  console.log(currentPage);
+
+  // how to implement pagination logic
+  /*
+  1. Define how many data I have -- data count  
+      1. Use mongoDB built-in method to calculate the total data -- Create an API endpoint for that
+
+  2. Define how many data I want to show
+  3. Define how many pages to show based on dataPerPage
+  4. Define prev and next button and their visibility dynamically based on the current page number/status 
+  
+  */
 
   // function for fetching all blogs
   const fetchAllBlogs = async () => {
     const { data } = await axiosSecure.get(
       `/blogs?categoryType=${encodeURIComponent(filterCategory)}&search=${encodeURIComponent(
         searchValue
-      )}`
+      )}&limit=${itemsPerPage}&page=${currentPage}`
     );
     return data;
   };
 
   // AllBlogs data
   const { data: allBlogs, isPending } = useQuery({
-    queryKey: ["all-blogs", filterCategory, searchValue],
+    queryKey: ["all-blogs", filterCategory, searchValue, currentPage, itemsPerPage],
     queryFn: fetchAllBlogs,
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  };
+
+  const handleItemPerPage = (e) => {
+    const value = parseInt(e.target.value);
+    setItemsPerPage(value);
+    setCurrentPage(0);
   };
 
   return (
@@ -93,6 +134,34 @@ const AllBlogs = () => {
             ? [...Array(8)].map((_, i) => <Skeleton key={i} height={248} />)
             : allBlogs?.map((blog) => <SingleBlogCard key={blog._id} blog={blog} />)}
         </SkeletonTheme>
+      </div>
+      {/* Pagination */}
+      <div className="my-10 flex justify-center">
+        <div className="join">
+          {pages?.map((page, i) => (
+            <button
+              key={i}
+              className={`join-item btn ${currentPage === page && "bg-primary text-base-100"}`}
+              // disabled={currentPage === page}
+              onClick={() => setCurrentPage(page)}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+        <div className="ml-5">
+          <select
+            defaultValue={itemsPerPage}
+            className="select"
+            onChange={(e) => handleItemPerPage(e)}
+          >
+            <option>5</option>
+            <option defaultChecked>8</option>
+            <option>10</option>
+            <option>15</option>
+            <option>20</option>
+          </select>
+        </div>
       </div>
     </div>
   );

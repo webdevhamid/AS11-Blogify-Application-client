@@ -37,6 +37,7 @@ const BreakingNewsMarquee = () => {
               <NavLink
                 to={`/single-blog/${news._id}`}
                 className={`hover:text-primary transform font-bold mr-5`}
+                key={news?._id}
               >
                 {news.title}
               </NavLink>
